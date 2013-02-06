@@ -1,0 +1,44 @@
+<h1>商品列表</h1>
+
+<table>
+  <tr>
+    <th>上架日期</th>
+    <th>顯示在前台</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>單顆重量</th>
+    <th>每箱幾個</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @orderproducts.each do |orderproduct| %>
+  <% if(!orderproduct.admindelete) %>
+  <tr>
+    <td>
+      <%= (orderproduct.addDate) || "未指定" %></td>
+    <td>
+      <%= orderproduct.frontshow == "1" ? "是" : "否" %></td>
+    <td>
+      <%= orderproduct.name %></td>
+    <td>
+      <%= orderproduct.price %></td>
+    <td>
+      <%= orderproduct.weight %></td>
+      <td>
+      <%= orderproduct.amountperbox %></td>
+    <td>
+      <%= link_to 'Show', admin_orderproduct_path(orderproduct) %></td>
+    <td>
+      <%= link_to 'Edit', edit_admin_orderproduct_path(orderproduct) %></td>
+    <td>
+      <%= link_to 'Destroy', admin_orderproduct_path(orderproduct), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+  <% end %>
+  <% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Orderproduct', new_admin_orderproduct_path %>

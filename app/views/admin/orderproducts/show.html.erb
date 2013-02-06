@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+<% if(@orderproduct.image.path) %>
+  <%= image_tag(@orderproduct.image_url(:thumb)) %>
+  <%else%>
+  <p>尚未上傳商品封面圖片</p>
+  <% end %>
+  
+<p>
+  <b>Name:</b>
+  <%= @orderproduct.name %>
+</p>
+<p>
+  <b>上架日期:</b>
+  <%= (@orderproduct.addDate) || "未指定" %>
+</p>
+
+<p>
+  <b>Price:</b>
+  <%= @orderproduct.price %>
+</p>
+
+<p>
+  <b>單顆重量:</b>
+  <%= @orderproduct.weight %>
+</p>
+
+<p>
+  <b>每盒幾個:</b>
+  <%= @orderproduct.amountperbox %>
+</p>
+<p>
+  <b>分類:</b>
+  <%= "梨" if(@orderproduct.fruitType == "1") %>
+  <%= "柿子/水蜜桃" if(@orderproduct.fruitType == "2") %>
+</p>
+<p>
+  <b>顯示在前台:</b>
+  <%= @orderproduct.frontshow == "1" ? "是" : "否" %>
+</p>
+
+<%= link_to 'Edit', edit_admin_orderproduct_path(@orderproduct) %> |
+<%= link_to 'Back', admin_orderproducts_path %>

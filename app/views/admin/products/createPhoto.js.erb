@@ -1,0 +1,11 @@
+if(<%=  @photo.errors.any? %>){
+
+	alert("this photo is already existed");
+	$('#new_productphoto').each(function(){
+		this.reset();
+	});
+}
+else{
+	newImage("<%= @photo.id %>","<%= @photo.image %>");
+}
+

@@ -1,0 +1,95 @@
+<!--top-out-->
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+          <li><a href="/admin/orders" id="order" class="active">訂單管理</a></li>
+        </ul>
+      </div>
+      <!--side-->
+      <div id="main" class="right">
+        <div class="messageArea">
+          <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" class="title" height="22" width="98">訂購人</td>
+              <td valign="middle" class="text"><%= @order.customername %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" class="title" height="22" width="98">訂購日期</td>
+              <td valign="middle" class="text"><%= @order.created_at.to_date %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="title2" height="27" width="98">聯絡電話</td>
+              <td class="text" width="200"><%= @order.tel %></td>
+              <td class="title2" width="98" style="border-left:1px solid #ccc">行動電話</td>
+              <td class="text"><%= @order.phone %></td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" class="title" height="22" width="98">電子郵件信箱</td>
+              <td valign="middle" class="text"><%= @order.email %></td>
+            </tr>
+          </table>
+        </div><div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" class="title" height="22" width="98">收件地址</td>
+              <td valign="middle" class="text"><%= @order.address %></td>
+            </tr>
+          </table>
+        </div>
+        <h2><img src="/images/signin.png" width="16" height="16" /> 訂購內容</h2>
+        <div class="confirmContent">
+        <table border="0" cellspacing="0" cellpadding="0" class="product">
+            <tr>
+              <td>產品圖</td>
+              <td>產品名稱</td>
+              <td>單顆重量</td>
+              <td>每箱幾個</td>
+              <td>價錢</td>
+              <td>訂購數量</td>
+              <td>金額</td>
+            </tr>
+            <% @order.orderitems.each do |orderitem| %>
+            <% @orderitem = Orderproduct.find(orderitem.orderproduct_id) %>
+            <tr>
+              <td><%= image_tag(@orderitem.image_url(:thumb)) %></a></td>
+              <td><%= @orderitem.name %></td>
+              <td><%= @orderitem.weight %></td>
+              <td><%= @orderitem.amountperbox %>個</td>
+              <td>$<%= @orderitem.price %></td>
+              <td><%= orderitem.amount %></td>
+              <td class="item">$<%= @orderitem.price * orderitem.amount %></td>
+            </tr>
+            <% end %>
+            
+            
+          </table>
+          <div class="freight">運費：<span>$ <%= @order.shippingfee %></span></div>
+          <div class="total"> 總計： <span>$<%= @order.totalprice %></span> </div>
+        </div>
+        
+        <div class="button"><%= link_to image_tag("/images/back_admin.png")+'回上一頁', admin_orders_path %></div>
+        <!--main--> 
+        </div>
+      </div>
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->

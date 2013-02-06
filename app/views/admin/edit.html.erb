@@ -1,0 +1,75 @@
+<!--top-out-->
+<div id="container">
+	<div class="editArea">
+      <div id="side" class="left">
+        <ul>
+              <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+              <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+              <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+              <li><a href="/admin/orders" id="order">訂單管理</a></li>
+            </ul>
+      </div>
+      <!--side-->
+      <div id="main" class="right">
+        <h2><img src="/images/signin.png" width="16" height="16" /> 修改個人資料</h2>
+        <%= form_for(@admin, :url => "/admin/update", :action => "put") do |f| %>
+        <div class="main-form">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="left">帳號<br>
+        <%= f.text_field :username, :autocomplete => "off" %></td>
+      </tr>
+      <tr>
+        <td align="left">姓名<br>
+        <%= f.text_field :name, :autocomplete => "off" %></td>
+      </tr>
+        <tr>
+        <td align="left"><span>- - - - - - - - - - - - 如不修改密碼則無需填下欄- - - - - - - - - - - -</span></td>
+      </tr>
+      <tr>
+        <td align="left">新密碼<br>
+        	<%= f.password_field :password, :autocomplete => "off" %>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">確認新密碼<br>
+        	<input id="pswCheck" type="password" name="textfield" />
+        </td>
+      </tr>
+    </table>
+        </div>
+
+        
+        <!--main-form-->
+        <% end %>
+        <div id="error">
+        <% if flash[:notice] %>
+        <p>管理者資料已更新</p>
+        <% end %>
+    	</div>
+        
+        <div class="button" id="btnSubmit"><input name="" type="button" /><img src="/images/save.png"><a>儲存</a></div>
+        <div class="button"><a href="#"><img src="/images/cancel.png">取消</a></div>
+
+      </div>
+      <!--main-->
+    </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->
+<script type="text/javascript">
+$("#btnSubmit").click(function(){
+	$("form").submit();
+});
+$("form").submit(function(){
+	var check = ($("#admin_password").val()==$("#pswCheck").val());
+	if(check == false){
+		$("#error").html("密碼不一致, 更新失敗");
+		$("#admin_password").val("");
+		$("#pswCheck").val("");
+	}
+	return check;
+});
+
+</script>

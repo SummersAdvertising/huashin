@@ -1,0 +1,48 @@
+<!--top-out-->
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+            <ul>
+              <li><a href="/admin/questions" target="_self" id="message" class="active">留言管理</a></li>
+              <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+              <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+              <li><a href="/admin/orders" id="order">訂單管理</a></li>
+            </ul>
+          </div>
+      <!--side-->
+      <div id="main" class="right">
+        
+        <div class="userArea">
+        
+        <div class="message_show">
+            <div class="qArea">
+                    <h3><%= @question.askerName %></h3>
+                    <span> </span>
+                    <p><%= simple_format(@question.content) %></p>
+                    <h6><%= @question.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
+                </div>
+
+                <%if (@answered.size > 0)%>
+                <% @answered.each do |answer| %>
+                <div class="aArea">
+                    <h3><%= answer.answererName %></h3>
+                    <span> </span>
+                    <p><%= simple_format(answer.content) %></p>
+                    <h6><%= answer.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
+                    <h4><%= link_to image_tag("/images/edit.png", :width => "16", :height => "16", :align => "center")+"修改留言", edit_admin_question_answer_path(@question, answer) %></h4>
+                </div>
+                <% end %>
+            </div>
+        </div>
+        <% else %>
+        <%= render 'formAnswer' %>        
+        <% end %>
+        <%= link_to '回上一頁', '/admin' %>
+        <!--main--> 
+        </div>
+      
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->

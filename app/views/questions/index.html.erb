@@ -1,0 +1,56 @@
+<div class="content_inside" >
+   <div class="topArea" >
+   		<div class="logo"><a href="/" title="梨山華新果園" target="_self"><img src="images/logo.png" width="335" height="85" /></a></div>
+    	<div class="inside_menu">
+              <ul>
+                      <li class="about"><a href="/intro" target="_self" title="果園簡介">果園簡介</a></li>
+                      <li class="product"><a href="/product" target="_self">產品介紹</a>
+                      	<ul>
+                            	<a href="/product?openDiv=peach" title="水蜜桃"><li class="peach">水蜜桃</li></a>
+                                <a href="/product?openDiv=pear" title="梨"><li class="pear">梨</li></a>
+                                <a href="/product?openDiv=persimmon" title="甜柿"><li class="persimmon">甜柿</li></a>
+                        </ul> 
+                      </li>
+                      <li class="buy"><a href="/orders" target="_self" title="線上訂購">線上訂購</a></li>
+                      <li class="message_p press"><a href="#">留言板</a></li>
+                  </ul>
+            </div>  
+   </div>
+   <div class="contentArea">
+   		<div class="leftBox">
+        <%= render 'form' %>
+      </div>
+   		
+      <div class="rightBox">
+        	<h1>留言板：</h1>
+          <div class="message_show">
+          <% @questions.each do |question| %>
+
+          <div class="message_box">
+            <div class="qArea">
+              <h1><%= question.askerName %></h1>
+              <span></span>
+              <p><%= simple_format(question.content) %></p>
+              <h6><%= question.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
+            </div>
+
+            <% if(question.answers.size > 0) %>
+            <div class="aArea">
+              <h1><%= question.answers.first.answererName %></h1>
+              <span></span>
+              <p><%= simple_format(question.answers.first.content) %></p>
+              <h6><%= question.answers.first.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
+            </div>
+            <% end %>
+
+          </div>
+
+          <% end %>
+
+        </div>
+
+        <%= paginate @questions, :theme => 'kaminari_theme' %>
+        
+      </div>
+   </div>
+   

@@ -1,0 +1,40 @@
+<div style="float: left;">
+	<ul>
+		<% @productclasses.each do |productclass| %>
+		<li>
+			<%= link_to productclass.name, productclass_path(productclass) %></li>
+		<% end %></ul>
+
+</div>
+<div style="float: right; width: 70%;">
+	<% if(@productclass.products.size >
+	0) %>
+	<table>
+		<tr>
+			<th></th>
+			<th>商品名稱</th>
+
+		</tr>
+
+		<% @products.each do |product| %>
+		<% if(product.frontshow) %>
+		<tr>
+
+			<td>
+				<% if(product.image.path) %>
+				<%= image_tag(product.image) %>
+				<%else%>
+				<p>未上傳封面</p>
+				<% end %></td>
+			<td>
+				<%= link_to product.name, productclass_product_path(@productclass, product) %></td>
+
+		</tr>
+		<% end %>
+		<% end %></table>
+
+	<br />
+	<% else %>
+	<p>
+		<%= @productclass.name %>底下沒有商品</p>
+	<% end %></div>

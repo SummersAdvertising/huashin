@@ -1,0 +1,12 @@
+$("#errors").html("");
+if(<%=  @order.errors.any? %>){
+
+	$("#errors").append("訂單填寫不完整");
+	$("#submitBtn").click(function(){
+      $("form").submit();
+    });
+}
+else{
+	alert("<%= @order.customername%> ,訂單已送出~");
+	window.location = "/orders";
+}

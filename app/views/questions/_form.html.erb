@@ -1,0 +1,67 @@
+<h3>請填寫您的留言資訊:</h3>
+<%= form_for(@question) do |f| %>
+
+<div class="message_fill">
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><%= f.label :askerName, '姓名' %>：</td>
+      <td>
+
+        <%= f.text_field :askerName, :autocomplete => "off" %>
+      </td>
+    </tr>
+    <tr>
+      <td><%= f.label :email, 'E-mail' %>：</td>
+      <td>
+        <%= f.text_field :email, :autocomplete => "off" %>
+      </td>
+    </tr>
+  </table>
+  <table border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td><%= f.label :content, '詢問問題' %>：</td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.text_area :content, :autocomplete => "off",:cols => "45", :rows => "5", :class => "qbox" %>
+      </td>
+    </tr>
+    <tr>
+      <td>請輸入驗證碼:</td>
+    </tr>
+    <tr>
+      <td>
+        <img src="/images/test.png" width="312" height="123" />
+        <div id='error'></div>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<div class="send">確定送出</div>
+<% end %>
+
+
+<script type="text/javascript">
+$(".send").click(function(event){
+  $("form").submit();
+  event.preventDefault();
+});
+$("form").submit(function(){
+  var submit = true;
+  $("#error").html("");
+
+  $("form input[type='text']").each(function(){
+    if(!$(this).val()){
+      submit = false;
+      $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
+    }
+  });
+  if(!$("textarea").val()){
+    submit = false;
+    $("#error").append("<p>" + $("label[for='"+$("textarea").attr('id')+"']").html() + "不能為空</p>");
+  }
+
+  return submit;
+});
+</script>

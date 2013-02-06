@@ -1,0 +1,59 @@
+
+<!--top-out-->
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message" class="active">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+      </div>
+      <!--side-->
+      <div id="main" class="right">
+        <div class="main-list">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr class="main-list-title">
+              <th width="17%" align="center" scope="col">日期</th>
+              <th width="63%" align="left" scope="col">問題描述</th>
+              <th width="9%" align="center" scope="col">回覆</th>
+              <th width="9%" align="center" scope="col">刪除</th>
+            </tr>
+            <% @questions.each do |question| %>
+            <tr>
+              <td align="center"><%= question.created_at.strftime("%Y/%m/%d") %></td>
+              <td align="left"><%= link_to question.content[0,20], admin_question_path(question) %>
+            	</td>
+              <td align="center">
+                <% if(question.answers.size > 0) %>
+                <%= link_to image_tag("/images/check.png"), admin_question_path(question) %>
+              	<% else %>
+                <%= link_to image_tag("/images/msg.png"), admin_question_path(question) %>
+            	<% end %></td>
+              <td align="center"><%= link_to image_tag("/images/delete.png"), admin_question_path(question), :method => :delete , data: { confirm: '確定刪除留言?' } %></td>
+            </tr>
+            <% end %>
+          </table>
+          
+      </div>
+      <div class="page_box">
+                <div class="newsPage">
+                    <ul>
+                        <a href="#"><li class="pre"> </li></a>
+                        <a href="#"><li class="press">1</li></a>
+                        <a href="#"><li>2</li></a>
+                        <a href="#"><li>3</li></a>
+                      <a href="#"><li class="next"> </li></a>
+                    </ul>
+                </div>
+           </div>
+      <div class="info">按鈕說明：<img src="/images/msg.png" align="center"/>尚未回覆　|　<img src="/images/check.png" align="center"/>已回覆　|　<img src="/images/delete.png" align="center"/>刪除</div>
+
+        </div>
+      <!--main--> 
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->

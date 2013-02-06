@@ -1,0 +1,23 @@
+<h1>商品分類</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @productclasses.each do |productclass| %>
+  <tr>
+    <td><%= productclass.name %></td>
+    <td><%= link_to 'Show', admin_productclass_path(productclass) %></td>
+    <td><%= link_to 'Edit', edit_admin_productclass_path(productclass) %></td>
+    <td><%= link_to 'Destroy', admin_productclass_path(productclass), method: :delete, data: { confirm: '分類底下的商品也會一併刪除，確定刪除分類？' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to '新增分類', new_admin_productclass_path %>

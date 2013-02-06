@@ -1,0 +1,39 @@
+<div id='error'></div>
+<% if @productclass.errors.any? %>
+<div id="error_explanation">
+  <h2>
+    <%= pluralize(@productclass.errors.count, "error") %>prohibited this productclass from being saved:
+  </h2>
+
+  <ul>
+    <% @productclass.errors.full_messages.each do |msg| %>
+    <li>
+      <%= msg %>
+    </li>
+    <% end %>  
+  </ul>
+</div>
+<% end %>
+
+<div class="field">
+  <%= f.label :name %>
+  <br />
+  <%= f.text_field :name, :autocomplete => "off" %></div>
+<div class="actions">
+  <%= f.submit %></div>
+
+<script type="text/javascript">
+$("form").submit(function(){
+  var submit = true;
+  $("#error").html("");
+
+  $("form input[type='text']").each(function(){
+    if(!$(this).val()){
+      submit = false;
+      $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
+    }
+  });
+
+  return submit;
+});
+</script>

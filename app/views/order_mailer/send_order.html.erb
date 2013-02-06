@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+</head>
+<body>
+  <h1>
+    <%= @order.customername %>, 你的訂單內容</h1>
+  <div>
+    <% @order.orderitems.each do |orderitem| %>
+    <p>
+      <%= Orderproduct.find(orderitem.orderproduct_id).name%>: <%= orderitem.amount%>個
+    </p>
+    <% end %>
+    <p>
+      總金額: <%= @order.totalprice %>
+    </p>
+  </div>
+</body>
+</html>

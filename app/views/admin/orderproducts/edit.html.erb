@@ -1,0 +1,8 @@
+<h1>Editing orderproduct</h1>
+
+<%= form_for(@orderproduct, :url => admin_orderproduct_path(@orderproduct), :method => "put") do |f| %>
+<%= render :partial => 'form', :locals => { :f => f} %>
+<% end %>
+
+<%= link_to 'Show', admin_orderproduct_path(@orderproduct) %> |
+<%= link_to 'Back', admin_orderproducts_path %>

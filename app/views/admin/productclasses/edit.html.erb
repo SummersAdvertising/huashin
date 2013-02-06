@@ -1,0 +1,7 @@
+<h1>Editing productclass</h1>
+
+<%= form_for(@productclass, :url => admin_productclass_path(@productclass), :method => "put") do |f| %>
+<%= render :partial => 'form', :locals => { :f => f} %>
+<% end %>
+
+<%= link_to 'back', admin_productclass_path(@productclass) %>

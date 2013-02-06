@@ -1,0 +1,43 @@
+<%= form_for(@question.answers.build, :url => admin_question_answers_path(@question)) do |f| %>
+<div class="messageArea">
+  <h2><img src="/images/msg.png" width="16" height="16" /> 留言回覆</h2>
+  <div>
+    <%= f.label :answererName, '回覆者' %>: <%= f.text_field :answererName, :autocomplete => "off" %>
+  </div>
+  <div class="main-text"><%= f.label :content, '回覆內容', :style=>"display: none;" %>
+    <%= f.text_area :content, :class => "autogrow", :autocomplete => "off" %></div>
+  <div id="error"></div>
+  <div class="button" id="btnSubmit"><a href="#"><img src="/images/save.png">確定</a></div>
+  <div class="button" id="btnCancel"><a href="#"><img src="/images/cancel.png">取消</a></div>
+</div>
+<% end %>
+<script type="text/javascript">
+$("#answer_answererName").val("<%= session[:admin]%>");
+</script>
+<script type="text/javascript">
+$("#btnSubmit").click(function(){
+  $("form").submit();
+});
+$("#btnCancel").click(function(){
+  $("textarea").val("");
+  console.log("cancel");
+});
+$("form").submit(function(){
+  var submit = true;
+  $("#error").html("");
+
+  $("form input[type='text']").each(function(){
+    if(!$(this).val()){
+      submit = false;
+      $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
+    }
+  });
+  if(!$("textarea").val()){
+    submit = false;
+    $("#error").append("<p>" + $("label[for='"+$("textarea").attr('id')+"']").html() + "不能為空</p>");
+  }
+
+  return submit;
+});
+</script>
+

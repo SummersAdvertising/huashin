@@ -1,0 +1,41 @@
+<!--top-out-->
+<div id="container">
+  <div id="main-single" class="main-sign">
+    <h2><img src="/images/man.png" width="16" height="16" /> 使用者登入</h2>
+
+    <%= form_for(@admin, :url => admin_loginCheck_path(@admin)) do |f| %>
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td colspan="2" align="left">帳號<br>
+          <%= f.text_field :username, :autocomplete => "off" %></td>
+      </tr>
+      <tr>
+        <td colspan="2" align="left">密碼<br>
+          <%= f.password_field :password, :autocomplete => "off" %></td>
+      </tr>
+      <!-- <tr>
+        <td width="117" align="left">是否記住密碼？
+          </td>
+        <td width="283" align="left"><input name="" type="checkbox" value="" style="width:25px"/></td>
+      </tr> -->
+    </table>
+    <% end %>
+    
+    <% if session[:notice] %>
+    <p class='notice'>請輸入正確的帳號及密碼</p>
+    <% end %>
+    
+    <div id="btnLogin" class="button"><img src="/images/login.png"><a  href="#">登入</a></div>
+    <!-- <div class="button"><a href="#"><img src="/images/psw.png">忘記密碼</a></div> -->
+  </div>
+  <!--main--> 
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->
+<script type="text/javascript">
+$("#btnLogin").click(function(){
+  $("form").submit();
+});
+</script>

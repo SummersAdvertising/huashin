@@ -1,0 +1,448 @@
+<%= stylesheet_link_tag "application", :media => "all" %>
+<%= stylesheet_link_tag "shadowbox", :media => "all" %>
+<%= form_for(@order, :remote=>true) do |f| %>
+<div class="confirmContent" style="display:none;">
+  <p>您訂購的產品資訊如下：</p>
+  <div id="divOrderContent">
+    
+  </div>
+          <div class="freight">
+            運費：
+            <span>$ <label id="shippingFee"></label></span>
+          </div>
+          <div class="total">
+            總計：
+            <span>
+              $
+              <label id="totalprice"></span>
+            </div>
+
+            <div class="buyer_info">
+              <p>收件者資訊如下：</p>
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td>姓名：</td>
+                  <td class="info">
+                    <label id="ordercustomername" />          
+                  </td>
+                </tr>
+                <tr>
+                  <td>聯絡電話：</td>
+                  <td class="info">
+                    <label id="ordertel" />          
+                  </td>
+                </tr>
+                <tr>
+                  <td>行動電話：</td>
+                  <td class="info">
+                    <label id="orderphone" />          
+                  </td>
+                </tr>
+                <tr>
+                  <td>電子郵件信箱：</td>
+                  <td class="info">
+                    <label id="orderemail" />          
+                  </td>
+                </tr>
+                <tr>
+                  <td>收件地址：</td>
+                  <td class="info">
+                    <label id="orderaddress" />          
+                  </td>
+                </tr>
+              </table>
+            </div>
+           
+            <div id="orderStatus"></div>
+            <div class="buttonArea">
+              <a href="#">
+                <div class="cancel_button" id="cancel">修改表單</div>
+              </a>
+              <a href="#">
+                <div id="submitBtn" class="buy_button">確定送出</div>
+              </a>
+            </div>
+</div>
+
+<div class="content_inside" >
+   <div class="topArea" >
+   		<div class="logo"><a href="/" title="梨山華新果園" target="_self"><img src="/images/logo.png" width="335" height="85" /></a></div>
+    	<div class="inside_menu">
+              <ul>
+                      <li class="about">
+                      <a href="/intro" target="_self" title="果園簡介">果園簡介</a></li>
+                      <li class="product"><a href="/product" target="_self">產品介紹</a>
+                         <ul>
+                            	<a href="/product?openDiv=peach" title="水蜜桃"><li class="peach">水蜜桃</li></a>
+                                <a href="/product?openDiv=pear" title="梨"><li class="pear">梨</li></a>
+                                <a href="/product?openDiv=persimmon" title="甜柿"><li class="persimmon">甜柿</li></a>
+                        </ul>   
+                      </li>
+                      <li class="buy_p press"><a href="#">線上訂購</a></li>
+                      <li class="message"><a href="/questions" target="_self" title="留言板">留言板</a></li>
+          </ul>
+     </div>  
+   </div>
+   <div class="contentArea">
+   		<div class="farmer"><img src="/images/farmer.png" width="200" height="370" /></div>
+	 <div class="orderBox">
+   	   <h1>&nbsp;</h1>
+       <div class="orderPoint"></div>       
+       
+       <div class="orderContent">
+          <p>如欲訂購產品，請填寫訂購單，我們會於收到訂單後與您聯絡確認訂單內容，謝謝。</p>
+          <table border="0" cellspacing="0" cellpadding="0" class="product">
+            <tr>
+              <td>產品圖</td>
+              <td>產品名稱</td>
+              <td>單顆重量</td>
+              <td>每箱幾個</td>
+              <td>價錢</td>
+              <td>訂購數量</td>
+            </tr>
+
+            <% @orderproducts.each do |product| %>            
+            <% if(product.frontshow && (product.frontshow != "0")) %>            
+            <tr>
+              <td>
+                <% if (product.image.path) %>
+                <a rel="shadowbox" href="<%= product.image %>"><%= image_tag(product.image_url(:thumb), :data => product.id) %></a>            
+                <% end %>
+              </td>
+              <td>
+                <label data-name = "<%= product.id%>"><%= product.name %></label>
+                <label data-fruitType = "<%= product.id%>" style="display:none;"><%= product.fruitType %></label>
+              </td>
+              <td>
+                <label data-weight = "<%= product.id%>"><%= product.weight %></label>
+              </td>
+              <td>
+                <label data-amountperbox = "<%= product.id%>"><%= product.amountperbox %>個</label>
+              </td>
+              <td>$<label data-price = "<%= product.id %>">
+                <%= product.price %></label>
+              </td>
+              <td>
+                <input name="amount" autocomplete="off" type="number" data-item="<%= product.id%>" /> 盒
+              </td>
+              <td style="display:none;">
+                <label name="price" data-sum = "<%= product.id%>" />
+              </td>
+              
+            </tr>
+            <% end %>            
+            <% end %>            
+
+            
+          </table>
+          
+		  <div class="freightInfo">
+          	<div class="freightPoint">運費說明 </div>
+            <h3>梨類：</h3>
+            <p>1盒100元、2盒120元、3盒140元、滿4盒為一件150元，超過4盒以另件計，
+              <br />
+            滿8盒（二件）免運。</p>
+			<h3>水蜜桃類、甜柿類：</h3>
+          	<p>1盒100元、2盒120元、3盒140元、4~9盒150元，滿10盒（一件）免運。</p>
+          </div>
+          
+          <div class="buyer_info" id="makeOrder">  
+              <table border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td><%= f.label :customername, "姓名" %>：</td>
+                    <td><%= f.text_field :customername, :autocomplete => "off", :class => "validate" %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :tel, "聯絡電話" %>：</td>
+                    <td><input class="tel" id="tel_region" value="" style="width:40px;"/> - <input class="tel" id="tel_number" value="" />
+                    <%= f.text_field :tel, :autocomplete => "off", :style => "display: none;" %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :phone, "行動電話" %>：</td>
+                    <td><%= f.text_field :phone, :autocomplete => "off" %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :email, "電子郵件信箱" %>：</td>
+                    <td><%= f.text_field :email, :autocomplete => "off", :class => "validate" %></td>
+                  </tr>
+                  <tr>
+                    <td><%= f.label :address, "收件地址" %>：</td>
+                    <td><%= f.text_field :address, :autocomplete => "off", :class => "validate" %></td>
+                  </tr>
+              </table>
+              <div style="display: none;">
+                <input id="orderitem" size="300" type="text" name="orderitem" />
+                <input id="order_totalprice" size="30" type="text" name="order[totalprice]" />
+                <input id="order_shippingfee" size="30" type="text" name="order[shippingfee]" />
+              </div>
+              <div id="error"></div>
+              <h4>隱私權聲明：</h4>
+              <p>
+              華新果園將蒐集您在本次購買流程所提供之個人資料（包括姓名、聯絡電話、電子郵件信箱），做為日後提供水果收成、新品上市、禮盒優惠相關訊息。未經您的許可，本園不會將您的個人資訊與第三人分享，有關您提供之個人資料，您得向本園請求查詢、閱覽、製給複本、補充、更正、停止蒐集/處理/利用、或刪除。
+              </p>
+              
+              <p>
+                  <input name="" type="checkbox" id="checkAgree" />
+                  <span>我同意</span>
+                  若您同意本園依上述聲明使用您的個人資料，請勾選左側方格。
+              </p>
+		  </div>
+          <a href="#"><div id="sendbox" class="buy_button">確定送出</div></a>
+       </div>
+<% end %>
+      
+      <div class="buyInfo">
+            <p>訂購流程：</p>
+            <ul>
+            	<li><span>1.&nbsp;</span>  選擇您欲購買的水果禮盒及數量</li>
+                <li><span>2.&nbsp;</span>  填寫您的聯絡資訊（姓名、聯絡電話、電子郵件信箱及收件地址）</li>
+                <li><span>3.&nbsp;</span>  完成選購後，會出現此次的購物清單供您再次確認</li>
+                <li><span>4.&nbsp;</span>  經確認後，系統會寄送訂單通知到您的電子郵件信箱，內附相關匯款資訊，<br />
+                     <span class="mark">未接獲周先生來電確認訂單前，請勿擅自匯款。</span></li>
+                <li><span>5.&nbsp;</span>  進行包裝，委託物流業者出貨。</li>
+                <li><span>6.&nbsp;</span>  恭喜您，有香甜可口的水果可以吃囉！</li>
+            </ul>
+      </div>
+     </div>
+  </div>
+
+<script type="text/javascript">
+Shadowbox.init({
+    // a darker overlay looks better on this particular site
+    overlayOpacity: 0.8
+    // setupDemos is defined in assets/demo.js
+}, setupDemos);
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    //記錄購買的商品
+    var orderitem = new Array();
+    //記錄水果盒數, 計算運費
+    var fruitCount = new Array();
+
+    //訂購商品數量改變時計算商品金額
+    $("input[name = 'amount']").change( function() {
+      calculatePrice.apply($(this));
+    });
+
+    function calculatePrice(){
+        //計算個別商品的金額
+        var priceItem = $("label[data-price = "+$(this).data("item")+" ]").text();
+        var priceSum = parseInt($(this).val()) * parseInt(priceItem);
+
+        $("#error").html("");
+
+        //輸入的數量必須大於零, 不為非數字或是小數
+        if(parseInt($(this).val()) < 0 || isNaN(priceSum) || ($(this).val()%1 != 0)){
+            priceSum =  0;
+            $(this).val("");
+            $("#error").html("請輸入正確的訂購數量");
+        }
+
+        $("label[data-sum = " + $(this).data("item") + " ]").text(priceSum);
+
+        //把個別金額相加計算訂購的商品總價
+        var total = 0;
+        //清空記錄
+        orderitem = [];
+        fruitCount = [];
+
+        $("label[name = 'price']").each(function(){
+          if(parseInt($(this).text()) > 0 && !isNaN($(this).text())){
+            total += Number($(this).text());
+
+            var item = new Object();
+
+            //記錄訂購的商品內容
+            item.id = $(this).data("sum");
+            item.image_url = $("img[data = '"+item.id+"']").attr("src");
+            item.name = $("label[data-name = "+item.id+" ]").text();
+            item.amount = $("input[data-item = "+item.id+" ]").val();
+            item.weight = $("label[data-weight = "+item.id+" ]").text();
+            item.amountperbox = $("label[data-amountperbox = "+item.id+" ]").text();
+            item.price = $("label[data-price = "+item.id+" ]").text();
+            item.totalprice = $(this).text();
+
+            orderitem.push(JSON.stringify(item));
+
+            //紀錄水果盒數
+            var fruitType =  $("label[data-fruitType = "+item.id+" ]").text();
+            fruitCount[fruitType] = fruitCount[fruitType]? fruitCount[fruitType]+parseInt(item.amount) : parseInt(item.amount);
+          }
+            
+        });
+
+        $("#totalprice").text(total);
+        $("#order_totalprice").val(total);
+    }
+
+    function calculateShippingFee(){
+      var shippingFee = 0;
+      //fruitCount[1]:梨類的箱數
+      if(fruitCount[1] && fruitCount[1]>0 && fruitCount[1]<8){
+        var amount = fruitCount[1];
+        if(amount>4){
+          shippingFee += 150;
+        }
+        switch(amount%4){
+          case 0:
+            shippingFee += 150;
+            break;
+          case 1:
+            shippingFee += 100;
+            break;
+          case 2:
+            shippingFee += 120;
+            break;
+          case 3:
+            shippingFee += 140;
+            break;
+        }
+      }
+
+      //fruitCount[2]:桃柿類的箱數
+      if(fruitCount[2] && fruitCount[2]>0 && fruitCount[2]<10){
+        var amount = fruitCount[2];
+        switch(amount){
+          case 1:
+            shippingFee += 100;
+            break;
+          case 2:
+            shippingFee += 120;
+            break;
+          case 3:
+            shippingFee += 140;
+            break;
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+          case 8:
+          case 9:
+            shippingFee += 150;
+            break;
+        }
+
+      }
+
+      $("#shippingFee").text(shippingFee);
+      $("#order_shippingfee").val(shippingFee);
+      var totalprice = shippingFee + parseInt($("#totalprice").text());
+      $("#totalprice").text(totalprice);
+      $("#order_totalprice").val(totalprice);
+    }
+
+    var order = new Object();
+
+    $("#sendbox").click(function(event){
+      if(!$("#checkAgree").is(':checked')){
+        $("#error").html("請先勾選我同意才能繼續訂購");
+        event.preventDefault();
+        return;
+      }
+      if(validate()){
+        //記錄訂單各個欄位的值
+        $("#makeOrder input[name ^= 'order']").each(function(){
+            var attribute = $(this).attr("name").substring(6, $(this).attr("name").length -1);
+            order[attribute] = $(this).val();
+        });
+        order.totalprice = $("#totalprice").text();
+
+        //確認表單的lightbox效果
+        $.blockUI({ message: $('.confirmContent') });
+        $('.blockOverlay').attr('title','取消表單').click($.unblockUI);
+        $('#cancel').click($.unblockUI);
+
+        //將訂單的值填到表單裡面
+        for(var key in order){
+            $("#order" + key).text(order[key]);
+        };
+
+        var divOrderContent = "<table border='0' cellspacing='0' cellpadding='0' class='product'><tr><td>產品圖</td><td>產品名稱</td><td>單顆重量</td><td>每箱幾個</td><td>價錢</td><td>訂購數量</td><td>金額</td></tr>";
+
+        
+        for(var count in orderitem){
+          var item = JSON.parse(orderitem[count]);
+          divOrderContent += "<tr><td><img src='"+item.image_url+"' width='170' height='125' /></td><td>"+item.name+"</td><td>"+item.weight+"</td><td>"+item.amountperbox+"</td><td>$"+item.price+"</td><td>"+item.amount+"</td><td class='item'>$"+item.totalprice+"</td>";
+        }
+        $("#divOrderContent").html(divOrderContent+"</table>");
+        $("#orderitem").val(orderitem);
+
+        //計算運費
+        calculateShippingFee();
+
+      }
+      else{
+        event.preventDefault();
+      }        
+    });
+    
+    $(".tel").change( function() {
+      if($("#tel_region").val() && $("#tel_number").val()){
+        var telNumber = "(" + $("#tel_region").val() + ")" + $("#tel_number").val();
+        $("#order_tel").val(telNumber);
+      }
+      else{
+        $("#order_tel").val("");
+      }
+      
+    });
+
+    function validate(){
+      var submit = true;
+      $("#error").html("");
+
+      $(".validate").each(function(){
+        if(!$(this).val()){
+          submit = false;
+          $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
+        }
+      });
+
+      //must leave tel or phone information
+      if(!$("#order_phone").val() && !$("#order_tel").val()){
+        submit = false;
+        $("#error").append("<p>請留下行動電話或聯絡電話</p>");
+      }
+
+      //validate email value
+      var emailrule = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if($("#order_email").val() && !$("#order_email").val().match(emailrule)){
+        submit = false;
+        $("#error").append("<p>請輸入正確的email</p>");
+      }
+
+      //validate tel value
+      var telrule = /^\(0\d{1,2}\)\d{6,8}$/;
+      if($("#order_tel").val() && !$("#order_tel").val().match(telrule)){
+        submit = false;
+        $("#error").append("<p>請輸入正確的聯絡電話</p>");
+      }
+
+      //validate phone value
+      var phonerule = /^09\d{8,8}$/;
+      if($("#order_phone").val() && !$("#order_phone").val().match(phonerule)){
+        submit = false;
+        $("#error").append("<p>請輸入正確的手機電話</p>");
+      }
+
+      if(!$("#totalprice").text() || $("#totalprice").text() == "0"){
+        submit = false;
+        $("#error").append("<p>請選擇商品</p>");
+      }
+
+      return submit;
+    }
+    
+    $("#submitBtn").click(function(){
+      $("form").submit();
+    });
+
+    $("form").submit(function(){
+      $("#orderStatus").html("訂單處理中");
+      $("#submitBtn").unbind();
+      return true;
+    });
+});
+</script>
