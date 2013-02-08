@@ -23,7 +23,7 @@
             <% @news.each do |news| %>
             <tr>
               <td align="center"><%= news.created_at.strftime("%Y/%m/%d") %></td>
-              <td align="left"><%= link_to 'Show', admin_news_path(news) %></td>
+              <td align="left"><%= link_to news.name, admin_news_path(news) %></td>
               <td align="center"><%= link_to image_tag("/images/edit.png"), edit_admin_news_path(news) %></td>
               <td align="center"><%= link_to image_tag("/images/delete.png"), admin_news_path(news), method: :delete, data: { confirm: '確定刪除消息?' } %></td>
             </tr>
@@ -31,17 +31,7 @@
           </table>
         </div>
       
-      <div class="page_box">
-                <div class="newsPage">
-                    <ul>
-                        <a href="#"><li class="pre"> </li></a>
-                        <a href="#"><li class="press">1</li></a>
-                        <a href="#"><li>2</li></a>
-                        <a href="#"><li>3</li></a>
-                      <a href="#"><li class="next"> </li></a>
-                    </ul>
-                </div>
-        </div>
+      <%= paginate @news, :theme => 'kaminari_theme' %>
       <div class="info">按鈕說明：<img src="/images/edit.png" align="center"/>編輯　|　<img src="/images/delete.png" align="center"/>刪除</div>  
         
      </div>

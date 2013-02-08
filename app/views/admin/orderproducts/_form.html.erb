@@ -1,44 +1,64 @@
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top" class="title" height="22" width="98"><%= f.label :image, '產品圖' %></td>
+      <td valign="middle" class="text"><%= f.file_field :image %></td>
+    </tr>
+  </table>
+</div>
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top" class="title" height="22" width="98">商品分類</td>
+      <td valign="middle" class="text">
+        <%= select( "orderproduct", "fruitType", { "請選擇商品分類" =>"0", "梨" => "1", "柿子/水蜜桃" => "2"}) %>
+      </td>
+    </tr>
+  </table>
+</div>
 
-  <div class="field">
-    <%= f.label :addDate, '上架日期' %><br />
-    <%= f.text_field :addDate, :autocomplete => "off" %>
-  </div>
-  <div class="field">
-    <%= f.check_box :frontshow %><%= f.label '顯示在前台' %>
-    
-  </div>
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :autocomplete => "off" %>
-  </div>
-  <div class="field">
-    <%= select( "orderproduct", "fruitType", { "請選擇商品分類" =>"0", "梨" => "1", "柿子/水蜜桃" => "2"}) %>
-  </div>
-  <div class="field">
-    <%= f.label :price %><br />
-    <%= f.number_field :price %>
-  </div>
-  <div class="field">
-    <%= f.label :weight, '單顆重量' %><br />
-    <%= f.text_field :weight, :autocomplete => "off" %>
-  </div>
-  <div class="field">
-    <%= f.label :amountperbox, '每盒幾個' %><br />
-    <%= f.text_field :amountperbox, :autocomplete => "off" %>
-  </div>
-  <div class="field">
-    <% if(@orderproduct.image.path) %>
-    <%= image_tag(@orderproduct.image_url(:thumb)) %>
-    <%else%>
-    <p>尚未上傳商品封面圖片</p>
-    <% end %>
-    <%= f.label :image,'封面' %><br />
-    <%= f.file_field :image %>
-  </div>
-  <div id="error"></div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="title2" height="27" width="98"><%= f.label :addDate, '上架日期' %></td>
+      <td class="text" width="200"><%= f.text_field :addDate, :autocomplete => "off" %></td>
+      <td class="title2" width="98" style="border-left:1px solid #ccc"><%= f.label :frontshow, '前台顯示' %></td>
+      <td class="text"><%= f.check_box :frontshow %></td>
+    </tr>
+  </table>
+</div>
+
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="title2" height="27" width="98"><%= f.label :name, '產品名稱' %></td>
+      <td class="text" width="200"><%= f.text_field :name, :autocomplete => "off" %></td>
+      <td class="title2" width="98" style="border-left:1px solid #ccc"><%= f.label :weight, '單顆重量' %></td>
+      <td class="text"><%= f.text_field :weight, :autocomplete => "off" %></td>
+    </tr>
+  </table>
+</div>
+
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="title2" height="27" width="98"><%= f.label :amountperbox, '每箱數量' %></td>
+      <td class="text" width="200"><%= f.text_field :amountperbox, :autocomplete => "off" %></td>
+      <td class="title2" width="98" style="border-left:1px solid #ccc"><%= f.label :price, '售價' %></td>
+      <td class="text"><%= f.number_field :price %></td>
+    </tr>
+  </table>
+</div>
+
+<!--main-banner-->
+<div id="error">
+  <% if flash[:notice] %>
+  <p>商品資料已更新</p>
+  <% end %>
+</div>
+
+<div class="button" id="btnSubmit"><a href="#"><img src="/images/save.png">儲存</a></div>
+<div class="button"><%= link_to image_tag("/images/cancel.png")+'取消', admin_orderproducts_path %></div>  
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
 <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
@@ -47,6 +67,10 @@
      $( "#orderproduct_addDate" ).datepicker();
      $( "#orderproduct_addDate" ).change(function(){
       $(this).datepicker("option", "dateFormat", "yy-mm-dd");
+     });
+
+     $("#btnSubmit").click(function(){
+      $("form").submit();
      });
 
      $("form").submit(function(){

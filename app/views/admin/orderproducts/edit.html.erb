@@ -1,8 +1,55 @@
-<h1>Editing orderproduct</h1>
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product" class="active">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+     </div>
+      <!--side-->
+      <div id="main" class="right">
+        <h2><img src="/images/edit.png" width="16" height="16" /> 修改產品
+        	<span class="right">前台顯示: 
+          <img src=<%= @orderproduct.frontshow == "1" ? "/images/check.png" : "/images/cancel.png" %> align="center" /></span></h2>
+        <div class="confirmContent">
+          <table border="0" cellspacing="0" cellpadding="0" class="product">
+            <tr>
+              <td>產品圖</td>
+              <td>上架日期</td>
+              <td>產品名稱</td>
+              <td>單顆重量</td>
+              <td>每箱數量</td>
+              <td>售價</td>
+              </tr>
+            <tr>
+              <td>
+                <% if(@orderproduct.image.path) %>
+                <%= image_tag(@orderproduct.image_url(:thumb)) %>
+                <%else%>
+                <p>尚未上傳商品封面圖片</p>
+                <% end %>
+              </td>
+              <td><%= (@orderproduct.addDate) || "尚未指定" %></td>
+              <td><%= @orderproduct.name %></td>
+              <td><%= @orderproduct.weight %></td>
+              <td><%= @orderproduct.amountperbox %>個</td>
+              <td>$<%= @orderproduct.price %> </td>
+              </tr>
+          </table>
+        </div>
+        <%= form_for(@orderproduct, :url => admin_orderproduct_path(@orderproduct), :method => "put") do |f| %>
+        <%= render :partial => 'form', :locals => { :f => f} %>
+        <% end %>
+      </div>
+      <!--main--> 
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->
 
-<%= form_for(@orderproduct, :url => admin_orderproduct_path(@orderproduct), :method => "put") do |f| %>
-<%= render :partial => 'form', :locals => { :f => f} %>
-<% end %>
 
-<%= link_to 'Show', admin_orderproduct_path(@orderproduct) %> |
-<%= link_to 'Back', admin_orderproducts_path %>
+
+

@@ -37,17 +37,7 @@
           </table>
           
       </div>
-      <div class="page_box">
-                <div class="newsPage">
-                    <ul>
-                        <a href="#"><li class="pre"> </li></a>
-                        <a href="#"><li class="press">1</li></a>
-                        <a href="#"><li>2</li></a>
-                        <a href="#"><li>3</li></a>
-                      <a href="#"><li class="next"> </li></a>
-                    </ul>
-                </div>
-           </div>
+      <%= paginate @questions, :theme => 'kaminari_theme' %>
       <div class="info">按鈕說明：<img src="/images/msg.png" align="center"/>尚未回覆　|　<img src="/images/check.png" align="center"/>已回覆　|　<img src="/images/delete.png" align="center"/>刪除</div>
 
         </div>

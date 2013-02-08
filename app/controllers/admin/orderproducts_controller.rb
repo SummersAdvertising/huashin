@@ -3,7 +3,7 @@ class Admin::OrderproductsController < ApplicationController
   layout 'admin'
 
   def index
-    @orderproducts = Orderproduct.order('addDate DESC, updated_at DESC, created_at DESC').all
+    @orderproducts = Orderproduct.order('addDate DESC, updated_at DESC, created_at DESC').page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -50,10 +50,11 @@ class Admin::OrderproductsController < ApplicationController
 
   def update
     @orderproduct = Orderproduct.find(params[:id])
+    flash[:notice] = 'successfully updated.'
 
     respond_to do |format|
       if @orderproduct.update_attributes(params[:orderproduct])
-        format.html { redirect_to admin_orderproduct_path(@orderproduct), notice: 'Orderproduct was successfully updated.' }
+        format.html { redirect_to edit_admin_orderproduct_path(@orderproduct), notice: 'Orderproduct was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

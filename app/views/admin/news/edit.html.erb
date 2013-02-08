@@ -1,67 +1,117 @@
-<h1>Editing news</h1>
-
-<%= form_for(@news, :url => admin_news_path(@news), :method => "put") do |f| %>
-<%= render :partial => 'form', :locals => { :f => f} %>
-<% end %>
-
-<hr />
-<p>add a <span class="showDiv">paragraph</span> | <span class="showDiv">image</span> | <span class="showDiv">video</span></p> 
-
-<div id="addParagraph">
-  <h5>add paragraph</h5>
-  <textarea id="newParagraphContent" placeholder="請將段落輸入在此處"></textarea><br />
-  <button id="newParagraph">建立文字段落</button>
-</div>
-
-<div id="addImage" style="display:none;">
-  <%= form_for (@photo), :url => 'uploadPhoto', :html => {:multipart => true, :remote => true} do |p| %>
-  <h5>add image</h5>
-  <div id="error"></div>
-  <%= p.file_field :image %>
-  <div class="actions">
-    <%= p.submit %>
-  </div>
-  <% end %>
-</div>
-
-<div id="addVideo" style="display:none;">
-  <h5>add video</h5>
-  <input id="newVideoContent" style="width: 320px;" placeholder="請將整段youtube連結貼到此處" />
-  <button id="newVideo">建立影片段落</button>
-  <div id="videoPreview"></div>
-</div>
-
-<hr />
-
-<%if(@news.newcreate)%>
-<%= link_to '取消發文', admin_news_path(@news), :method => :delete %>
-<%end%>
-
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-<style>
+<style type="text/css">
+img{
+  max-width:480px;
+}
 .ui-state-highlight { height: 50px; }
 .paragraphContainer { border-width: 1px; border-style: solid; margin: 5px;}
 </style>
+<!--top-out-->
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news" class="active">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+      </div>
+      <!--side-->
+      <div id="main" class="right">
+        <div class="dragArea">
+
+        <%= form_for(@news, :url => admin_news_path(@news), :method => "put") do |f| %>
+        <%= render :partial => 'form', :locals => { :f => f} %>
+        <% end %>
+
+        <h2><img src="/images/pin.png" width="16" height="16" /> 新增內容</h2>
+
+
+        <div class="editContent">
+          <div class="editFunction">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td valign="top" height="22" width="180">
+                  <ul>
+                    <li class="editLeft showDiv press" id="addParagraph" data-name="paragraph"><a href="#"><img src="/images/edit.png" width="16" height="16" align="center"/>插入段落</a></li>
+                    <li class="showDiv" id="addImage" data-name="image"><a href="#"><img src="/images/img.png" width="16" height="16" align="center"/>插入圖片</a></li>
+                    <li class="editRight showDiv" id="addVideo" data-name="video"><a href="#"><img src="/images/video.png" width="16" height="16" align="center"/>插入影片</a></li>
+                  </ul>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div id="insert_paragraph">
+            <div class="main-text">
+              <textarea id="newParagraphContent" class="autogrow" placeholder="請將段落輸入在此處"></textarea>
+            </div>
+            <div class="button" id="newParagraph"><a href="#"><img src="/images/add.png">新增段落</a></div>
+          </div>
+
+          <div id="insert_image" style="display:none">
+            <div class="edit-text">
+              
+              <%= form_for (@photo), :url => 'uploadPhoto', :html => {:multipart => true, :remote => true} do |p| %>
+              <div id="error"></div>
+              <%= p.file_field :image, :class => "autogrow" %>
+              <% end %>
+            </div>
+            <div class="button" id="btnSubmitPhoto"><a href="#"><img src="/images/add.png">新增圖片</a></div>
+          </div>
+
+          <div id="insert_video" style="display:none">
+            <div class="edit-text">
+              <input id="newVideoContent" class="autogrow" style="width: 320px;" placeholder="請將整段youtube連結貼到此處" />
+            </div>
+            <div class="button" id="newVideo"><a href="#"><img src="/images/add.png">新增連結</a></div>
+            <div id="videoPreview"></div>
+          </div>
+        
+        </div>
+        <!--main-->
+      </div>
+    </div>
+  </div>
+  <!--container-->
+<div id="footer"></div>
+<!--footer-->
+
+<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
 <script type="text/javascript">
   var form = "#edit_news_<%= params[:id]%>";
   //show content
   showContent();
 
   /*insert a paragraph/photo/video into article content */
-  $(".showDiv").click(function(){
-    var itemToAdd = "add" + $(this).html().charAt(0).toUpperCase() + $(this).html().slice(1);
+  $(".showDiv").click(function(event){
+    var triggerID = $(this).attr("id");
+    $(".showDiv").each(function(){
 
-    var divToShow = ["addParagraph","addImage","addVideo"];
+      if($(this).attr("id")==triggerID){
+        $(this).addClass("press");
+      }
+      else{
+        $(this).removeClass("press");
+      }
+    });
+
+    var itemToAdd = "insert_" + $(this).data("name");
+
+    var divToShow = ["insert_paragraph","insert_image","insert_video"];
     for(item in divToShow)
     {
       var display = divToShow[item]==itemToAdd ? "block":"none";
       $("#"+divToShow[item]).css("display", display);
     }
+
+    event.preventDefault();
+
   });
 
-  $("#newParagraph").click(function(){
+  $("#newParagraph").click(function(event){
     if($("#newParagraphContent").val()){
-      var container = $('<div class="paragraphContainer ui-state-default" data-type="paragraph"></div>');
+      var container = $('<div class="paragraphContainer ui-state-default dragItem" data-type="paragraph"></div>');
       var paragraph = $("<p  class='paragraph'>" + $("#newParagraphContent").val().replace(/\n/g, "<br />") + "</p>");
       container.append(paragraph);
 
@@ -74,6 +124,12 @@
     else{
       alert("請輸入內容");
     }
+    event.preventDefault();
+  });
+
+  $("#btnSubmitPhoto").click(function(event){
+    $("#new_newsphoto").submit();
+    event.preventDefault();
   });
 
   //validate image upload
@@ -103,9 +159,9 @@
 
       alert = isPass? null : "<p>只能上傳 .gif, .png, .jpg 圖片檔</p>";
 
-      if(fileinput.files[0].size > 2 * 1024 *1024){
+      if(fileinput.files[0].size > 5 * 1024 *1024){
         isPass = false;
-        alert += "<p>檔案大小必須小於2MB</p>";
+        alert += "<p>檔案大小必須小於5MB</p>";
       }
       if(!isPass){
         $("#error").append(alert);
@@ -117,7 +173,7 @@
   }
 
   function newImage(photoID,photoPath){
-    $("#articleContent").append('<div class="paragraphContainer ui-state-default" data-type="image" data-photo_id="'+ photoID +'"><img src="'+photoPath+'" alt="'+photoID+'" /></div>');
+    $("#articleContent").append('<div class="paragraphContainer ui-state-default dragItem" data-type="image" data-photo_id="'+ photoID +'"><img src="'+photoPath+'" alt="'+photoID+'" /></div>');
     $(".paragraphContainer").unbind().bind("click",function(){paragraphClick(this);});
     $('#new_photo').each (function(){
       this.reset();
@@ -126,9 +182,9 @@
     saveArticle();    
   }
 
-  $("#newVideo").click(function() {    
+  $("#newVideo").click(function(event) {    
     if( $("#newVideoContent").val() ){    
-      var container = $('<div class="paragraphContainer ui-state-default" data-type="video"></div>');
+      var container = $('<div class="paragraphContainer ui-state-default dragItem" data-type="video"></div>');
       var code = getYoutubeCode( $("#newVideoContent").val());
       var paragraph = $('<iframe width="480" height="290" data-code="' + code + '" src="http://www.youtube.com/embed/' + code + '" frameborder="0" allowfullscreen></iframe>');
       container.append(paragraph);
@@ -143,6 +199,7 @@
     else{
       alert("請輸入內容");
     }
+    event.preventDefault();
   });
 
   // Video preview
@@ -218,14 +275,14 @@
 
         if(JSON.stringify(paragraph.type)=='"paragraph"')
         {
-          article = "<div class='paragraphContainer ui-state-default' data-type='paragraph'><p>"+jsonReplace(JSON.stringify(paragraph.content)).replace(/\\n/g, "<br />")+"</p>";
+          article = "<div class='paragraphContainer ui-state-default dragItem' data-type='paragraph'><p>"+jsonReplace(JSON.stringify(paragraph.content)).replace(/\\n/g, "<br />")+"</p>";
         }
         else if(JSON.stringify(paragraph.type)=='"image"')
         {
-          article = "<div  class='paragraphContainer ui-state-default' data-type='image' data-photo_id=\"" + paragraph.id + "\"><img alt=" + JSON.stringify(paragraph.id) + " src=" + JSON.stringify(paragraph.path) + " title=" + JSON.stringify(paragraph.id) + " height='50px' width='50px' /></div>";
+          article = "<div  class='paragraphContainer ui-state-default dragItem' data-type='image' data-photo_id=\"" + paragraph.id + "\"><img alt=" + JSON.stringify(paragraph.id) + " src=" + JSON.stringify(paragraph.path) + " title=" + JSON.stringify(paragraph.id) + " /></div>";
         }
         else if (JSON.stringify(paragraph.type)=='"video"') {
-          article = "<div  class='paragraphContainer ui-state-default' data-type='video' data-code=\"" + paragraph.code + "\"><iframe width=\"480\" height=\"290\" data-code=\"" + paragraph.code + "\" src=\"http://www.youtube.com/embed/" + paragraph.code+ "\" frameborder=\"0\" allowfullscreen></iframe></div>";
+          article = "<div  class='paragraphContainer ui-state-default dragItem' data-type='video' data-code=\"" + paragraph.code + "\"><iframe width=\"480\" height=\"290\" data-code=\"" + paragraph.code + "\" src=\"http://www.youtube.com/embed/" + paragraph.code+ "\" frameborder=\"0\" allowfullscreen></iframe></div>";
         }
 
         $("#articleContent").append(article);
@@ -250,13 +307,13 @@
     removeEditPath=false;
 
     if($(paragraph).data("type") == "paragraph") {
-      controlDiv = '<div id="elementControl"><span id="elementDel">刪除</span> | <span id="elementEdit">編輯</span> | </div>';
+      controlDiv = '<div id="elementControl"><a id="elementEdit">編輯</a> | <a id="elementDel">刪除</a></div>';
     }
     else if( $(paragraph).data("type") == "image" ) {
-      controlDiv = '<div id="elementControl"><a class="photoDelete" href="/admin/news/<%= params[:id]%>/deletePhoto/' + $(paragraph).data("photo_id") + '" data-method="delete" rel="nofollow" data-remote="true">刪除</a>';
+      controlDiv = '<div id="elementControl"><a class="photoDelete" href="/admin/news/<%= params[:id]%>/deletePhoto/' + $(paragraph).data("photo_id") + '" data-method="delete" rel="nofollow" data-remote="true">刪除</a></div>';
     }
     else if( $(paragraph).data("type") == "video" ) {
-      controlDiv = '<div id="elementControl"><span id="elementDel">刪除</span>';
+      controlDiv = '<div id="elementControl"><a id="elementDel">刪除</a></div>';
     }
 
     $(paragraph).prepend(controlDiv);
@@ -299,6 +356,9 @@
   function nl2br(string) { return string.replace(/\n/g, "<br />");}
   function br2nl(string) { return string.replace(/<br[ \/]*>/g, "\n");}
 
+  $("#btnSubmit").click(function(){
+    $(form).submit();
+  });
   //validate when submit
   $(form).submit(function(){
     var submit = true;

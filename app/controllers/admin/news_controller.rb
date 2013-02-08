@@ -3,7 +3,7 @@ class Admin::NewsController < ApplicationController
   layout 'admin'
 
   def index
-    @news = News.order('created_at DESC').page(params[:page])
+    @news = News.order('created_at DESC').page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -79,6 +79,7 @@ class Admin::NewsController < ApplicationController
   # PUT /news/1.json
   def update
     @news = News.find(params[:id])
+    @news.newcreate = false
 
     respond_to do |format|
       if @news.update_attributes(params[:news])

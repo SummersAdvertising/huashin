@@ -11,17 +11,14 @@
           </div>
       <!--side-->
       <div id="main" class="right">
-        
         <div class="userArea">
-        
-        <div class="message_show">
+          <div class="message_show">
             <div class="qArea">
                     <h3><%= @question.askerName %></h3>
                     <span> </span>
                     <p><%= simple_format(@question.content) %></p>
                     <h6><%= @question.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
                 </div>
-
                 <%if (@answered.size > 0)%>
                 <% @answered.each do |answer| %>
                 <div class="aArea">
@@ -32,12 +29,11 @@
                     <h4><%= link_to image_tag("/images/edit.png", :width => "16", :height => "16", :align => "center")+"修改留言", edit_admin_question_answer_path(@question, answer) %></h4>
                 </div>
                 <% end %>
-            </div>
-        </div>
-        <% else %>
+
+        <% else %></div>
+    </div>
         <%= render 'formAnswer' %>        
         <% end %>
-        <%= link_to '回上一頁', '/admin' %>
         <!--main--> 
         </div>
       

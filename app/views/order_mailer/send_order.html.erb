@@ -13,8 +13,17 @@
     </p>
     <% end %>
     <p>
+      運費: <%= @order.shippingfee %>
       總金額: <%= @order.totalprice %>
     </p>
+  </div>
+  <div>
+    匯款資訊：</br>
+    銀行帳戶：0000000-000000000</br>
+    戶名：周先生</br>
+    匯款金額：$<%= @order.totalprice %></br>
+    </br>
+    謝謝！</br>
   </div>
 </body>
 </html>

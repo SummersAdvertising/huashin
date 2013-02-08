@@ -3,7 +3,7 @@ class Admin::OrdersController < ApplicationController
   layout 'admin'
 
   def index
-    @orders = Order.all
+    @orders = Order.order('created_at DESC').page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,27 +1,35 @@
+
 <div id='error'></div>
-<% if @news.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@news.errors.count, "error") %> prohibited this news from being saved:</h2>
+<div class="main-title">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td valign="top" class="title" height="22" width="98"><%= f.label :name, "標題" %></td>
+      <td valign="middle" class="text">
+        <%= f.text_field :name, :autocomplete =>"off" %>
+      </td>
+    </tr>
+  </table>
+</div>
 
-      <ul>
-      <% @news.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<h5>
+  <img src="/images/tag.png" width="16" height="16" />
+  提示：將滑鼠移至段落內容，可進行拖曳排序。
+</h5>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, :autocomplete => "off" %>
-  </div>
-  <div class="field">
-    <%= f.label :content %><%= f.text_field :content, :style => "display:none;" %>
+<div class="field">
+  <%= f.label :content, :style =>"display:none;" %>
+  <%= f.text_field :content, :style =>"display:none;" %>
+  <!--show the content of article -->
+  <div id="articleContent" class="sortable"></div>
+</div>
 
-    <!--show the content of article -->
-    <div id="articleContent" class="sortable"></div>
-  
-  </div>
-  <div class="actions">
-    <%= f.submit "save article" %>
-  </div>
+<div class="button" id="btnSubmit">
+  <a href="#">
+    <img src="/images/save.png">儲存文章</a>
+</div>
+
+<%if(@news.newcreate)%>
+<div class="button">
+  <%= link_to image_tag("/images/cancel.png")+'取消發文', admin_news_path(@news), :method => :delete %>
+</div>
+<%end%>

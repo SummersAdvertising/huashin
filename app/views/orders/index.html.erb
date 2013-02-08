@@ -1,5 +1,6 @@
 <%= stylesheet_link_tag "application", :media => "all" %>
-<%= stylesheet_link_tag "shadowbox", :media => "all" %>
+<%= stylesheet_link_tag "jquery.colorbox", :media => "all" %>
+
 <%= form_for(@order, :remote=>true) do |f| %>
 <div class="confirmContent" style="display:none;">
   <p>您訂購的產品資訊如下：</p>
@@ -106,7 +107,7 @@
             <tr>
               <td>
                 <% if (product.image.path) %>
-                <a rel="shadowbox" href="<%= product.image %>"><%= image_tag(product.image_url(:thumb), :data => product.id) %></a>            
+                <a class="shadowbox" href="<%= product.image %>"><%= image_tag(product.image_url(:thumb), :data => product.id) %></a>            
                 <% end %>
               </td>
               <td>
@@ -208,11 +209,13 @@
   </div>
 
 <script type="text/javascript">
-Shadowbox.init({
-    // a darker overlay looks better on this particular site
-    overlayOpacity: 0.8
-    // setupDemos is defined in assets/demo.js
-}, setupDemos);
+$('a.shadowbox').colorbox({
+  scalePhotos: true, 
+  maxWidth: "1000px",
+  className: "normal",
+  scrolling: false,
+  returnFocus: false
+});
 </script>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -440,7 +443,14 @@ $(document).ready(function(){
     });
 
     $("form").submit(function(){
-      $("#orderStatus").html("訂單處理中");
+      $.colorbox({
+        html:'<div style="margin: 0 auto; color:#eee "><p style="text-align: center;"><img src="/images/loading.gif" style="vertical-align:middle;"/>  訂單處理中, 請稍候</p></div>',
+        width: 250,
+        height: 45,
+        className: "waiting",
+        overlayClose: false,
+        scrolling: false
+    });
       $("#submitBtn").unbind();
       return true;
     });

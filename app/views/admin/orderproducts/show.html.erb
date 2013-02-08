@@ -1,42 +1,97 @@
-<p id="notice"><%= notice %></p>
-<% if(@orderproduct.image.path) %>
-  <%= image_tag(@orderproduct.image_url(:thumb)) %>
-  <%else%>
-  <p>尚未上傳商品封面圖片</p>
-  <% end %>
-  
-<p>
-  <b>Name:</b>
-  <%= @orderproduct.name %>
-</p>
-<p>
-  <b>上架日期:</b>
-  <%= (@orderproduct.addDate) || "未指定" %>
-</p>
-
-<p>
-  <b>Price:</b>
-  <%= @orderproduct.price %>
-</p>
-
-<p>
-  <b>單顆重量:</b>
-  <%= @orderproduct.weight %>
-</p>
-
-<p>
-  <b>每盒幾個:</b>
-  <%= @orderproduct.amountperbox %>
-</p>
-<p>
-  <b>分類:</b>
-  <%= "梨" if(@orderproduct.fruitType == "1") %>
-  <%= "柿子/水蜜桃" if(@orderproduct.fruitType == "2") %>
-</p>
-<p>
-  <b>顯示在前台:</b>
-  <%= @orderproduct.frontshow == "1" ? "是" : "否" %>
-</p>
-
-<%= link_to 'Edit', edit_admin_orderproduct_path(@orderproduct) %> |
-<%= link_to 'Back', admin_orderproducts_path %>
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product" class="active">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+     </div>
+      <!--side-->
+      <div id="main" class="right">
+        <h2><img src="/images/edit.png" width="16" height="16" /> 修改產品<span class="right">前台顯示: 
+          <img src=<%= @orderproduct.frontshow == "1" ? "/images/check.png" : "/images/del.png" %> align="center" /></span></h2>
+        <div class="confirmContent">
+          <table border="0" cellspacing="0" cellpadding="0" class="product">
+            <tr>
+              <td>產品圖</td>
+              <td>上架日期</td>
+              <td>產品名稱</td>
+              <td>單顆重量</td>
+              <td>每箱數量</td>
+              <td>售價</td>
+              </tr>
+            <tr>
+              <td>
+                <% if(@orderproduct.image.path) %>
+                <%= image_tag(@orderproduct.image_url(:thumb)) %>
+                <%else%>
+                <p>尚未上傳商品封面圖片</p>
+                <% end %>
+              </td>
+              <td><%= (@orderproduct.addDate) || "尚未指定" %></td>
+              <td><%= @orderproduct.name %></td>
+              <td><%= @orderproduct.weight %></td>
+              <td><%= @orderproduct.amountperbox %>個</td>
+              <td>$<%= @orderproduct.price %> </td>
+              </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td valign="top" class="title" height="22" width="98">產品圖</td>
+              <td valign="middle" class="text"><input type="file" name="fileField" id="fileField" style="font-size:12px; height:18px;" /></td>
+            </tr>
+            <tr>
+              <td valign="top" class="title" height="22" width="98">分類</td>
+              <td valign="middle" class="text">
+                <%= "梨" if(@orderproduct.fruitType == "1") %>
+                <%= "柿子/水蜜桃" if(@orderproduct.fruitType == "2") %>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="title2" height="27" width="98">上架日期</td>
+              <td class="text" width="200"><input name="" type="text" class="autogrow"/></td>
+              <td class="title2" width="98" style="border-left:1px solid #ccc">前台顯示</td>
+              <td class="text"><input name="" type="checkbox" value="" style="width:auto"/></td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="title2" height="27" width="98">產品名稱</td>
+              <td class="text" width="200"><input name="" type="text" class="autogrow"/></td>
+              <td class="title2" width="98" style="border-left:1px solid #ccc">單顆重量</td>
+              <td class="text"><input name="" type="text" class="autogrow"/></td>
+            </tr>
+          </table>
+        </div>
+        <div class="main-title">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td class="title2" height="27" width="98">每箱數量</td>
+              <td class="text" width="200"><input name="" type="text" class="autogrow"/></td>
+              <td class="title2" width="98" style="border-left:1px solid #ccc">售價</td>
+              <td class="text"><input name="" type="text" class="autogrow"/></td>
+            </tr>
+          </table>
+        </div>
+        <!--main-banner-->
+        <div class="button"><a href="#"><img src="/images/save.png">儲存</a></div>
+        <div class="button"><a href="#"><img src="/images/cancel.png">取消</a></div>
+        <%= link_to 'Edit', edit_admin_orderproduct_path(@orderproduct) %>
+        <%= link_to 'Back', admin_orderproducts_path %>
+      </div>
+      <!--main--> 
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->

@@ -1,20 +1,47 @@
-<p id="notice"><%= notice %></p>
+<style type="text/css">
+img{
+  max-width:480px;
+}
+</style>
+<!--top-out-->
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news" class="active">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+      </div>
+      <!--side-->
+      <div id="main" class="right">
+    <div class="dragArea">
+      <div class="main-title">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td valign="top" class="title" height="22" width="98">標題</td>
+            <td valign="middle" class="text"><%= @news.name %></td>
+          </tr>
+        </table>
+      </div> 
 
-<p>
-  <b>Name:</b>
-  <%= @news.name %>
-</p>
+      <input id="news_content" style="display:none;" type="text" value="<%=@news.content%>">
+      <div id="articleContent"></div>
 
-<p>
-  <b>Content:</b><input id="news_content" style="display:none;" type="text" value="<%=@news.content%>">
-  <div id="articleContent"></div>
-</p>
+      
+      <div class="button"><%= link_to image_tag("/images/back_admin.png")+'上一頁', admin_news_index_path %></div>
+      <div class="button"><%= link_to image_tag("/images/edit.png")+'編輯', edit_admin_news_path(@news) %></div>
+    </div>
+    <!--main--> 
+  </div>
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->
 
-
-<%= link_to 'Edit', edit_admin_news_path(@news) %> |
-<%= link_to 'Back', admin_news_index_path %>
-
-<script>
+<script type="text/javascript">
 $(document).ready(function() {
 	showContent();
 	function showContent(){

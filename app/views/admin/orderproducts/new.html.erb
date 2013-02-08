@@ -1,8 +1,27 @@
-<h1>New orderproduct</h1>
+<div id="container">
+   <div class="editArea">
+      <div id="side" class="left">
+        <ul>
+          <li><a href="/admin/questions" target="_self" id="message">留言管理</a></li>
+          <li><a href="/admin/news" target="_self" id="news">最新消息</a></li>
+          <li><a href="/admin/orderproducts" target="_self" id="product" class="active">商品管理</a></li>
+          <li><a href="/admin/orders" id="order">訂單管理</a></li>
+        </ul>
+     </div>
+      <!--side-->
+      <div id="main" class="right">
+        <h2><img src="/images/edit.png" width="16" height="16" /> 修改產品
+        	<span class="right">前台顯示: 
+          <img src=<%= @orderproduct.frontshow == "1" ? "/images/check.png" : "/images/cancel.png" %> align="center" /></span></h2>
+        
+        <%= form_for(@orderproduct, :url => admin_orderproducts_path(@orderproduct), :method => "post") do |f| %>
+        <%= render :partial => 'form', :locals => { :f => f} %>
+        <% end %>
 
-<%= form_for(@orderproduct, :url => admin_orderproducts_path(@orderproduct), :method => "post") do |f| %>
-<%= render :partial => 'form', :locals => { :f => f} %>
-<% end %>
-
-
-<%= link_to 'Back', admin_orderproducts_path %>
+      </div>
+      <!--main--> 
+   </div>
+</div>
+<!--container-->
+<div id="footer"></div>
+<!--footer-->

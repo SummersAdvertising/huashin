@@ -11,26 +11,22 @@
           </div>
       <!--side-->
       <div id="main" class="right">
-        
         <div class="userArea">
-        
-        <div class="message_show">
+          <div class="message_show">
             <div class="qArea">
-                    <h3><%= @question.askerName %></h3>
-                    <span> </span>
-                    <p><%= simple_format(@question.content) %></p>
-                    <h6><%= @question.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
-                </div>
+              <h3><%= @question.askerName %></h3>
+              <span> </span>
+              <p><%= simple_format(@question.content) %></p>
+              <h6><%= @question.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
             </div>
+          </div>
         </div>
-        
+
         <%= render 'formAnswer' %>
-        
-        <%= link_to '回上一頁', '/admin' %>
-        <!--main--> 
-        </div>
-      
-   </div>
+
+        <!--main-->
+      </div>
+    </div>
 </div>
 <!--container-->
 <div id="footer"></div>

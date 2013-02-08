@@ -1,5 +1,5 @@
 <%= stylesheet_link_tag "application", :media => "all" %>
-<%= stylesheet_link_tag "shadowbox", :media => "all" %>
+<%= stylesheet_link_tag "jquery.colorbox", :media => "all" %>
 <div class="content_inside" >
    <div class="topArea" >
    		<div class="logo"><a href="/" title="梨山華新果園" target="_self"><img src="/images/logo.png" width="335" height="85" /></a></div>
@@ -25,24 +25,16 @@
    	   <h1>最新消息：</h1>
             <div class="newsPoint"></div>
             <div class="newsList">
-                <h1><%= @news.created_at.strftime("%Y/%m/%d") %>： <%= @news.name %></h1>
-                <input id="news_content" style="display:none;" type="text" value="<%=@news.content%>">
-                <div id="articleContent">
-                
-            </div> 
-        </div>
+              <h1><%= @news.created_at.strftime("%Y/%m/%d") %>： <%= @news.name %></h1>
+              <input id="news_content" style="display:none;" type="text" value="<%=@news.content%>">
+              <div id="articleContent"></div>
+            </div>
+    </div>
 
 <script type="text/javascript">
-Shadowbox.init({
-    // a darker overlay looks better on this particular site
-    overlayOpacity: 0.8
-    // setupDemos is defined in assets/demo.js
-}, setupDemos);
-</script>
-<script type="text/javascript">
 $(document).ready(function() {
-  showContent();
-  function showContent(){
+  showContent(initColorbox);
+  function showContent(callback){
     if($("#news_content").val())
     {
       var obj = jQuery.parseJSON($("#news_content").val());
@@ -57,17 +49,29 @@ $(document).ready(function() {
         }
         else if(JSON.stringify(paragraph.type)=='"image"')
         {
-          article = "<div class='paragraphContainer' data-type='image' data-photo_id=\"" + paragraph.id + "\"><a rel='shadowbox' href="+JSON.stringify(paragraph.path)+"><img alt=" + JSON.stringify(paragraph.id) + " src=" + JSON.stringify(paragraph.path) + " title=" + JSON.stringify(paragraph.id) + " /></a></div>";
+          article = "<div class='paragraphContainer' data-type='image' data-photo_id=\"" + paragraph.id + "\"><a class='shadowbox' href="+JSON.stringify(paragraph.path)+"><img alt=" + JSON.stringify(paragraph.id) + " src=" + JSON.stringify(paragraph.path) + " title=" + JSON.stringify(paragraph.id) + " /></a></div>";
         }
         else if (JSON.stringify(paragraph.type)=='"video"') {
           article = "<div  class='paragraphContainer' data-type='video' data-code=\"" + paragraph.code + "\"><iframe width=\"480\" height=\"290\" data-code=\"" + paragraph.code + "\" src=\"http://www.youtube.com/embed/" + paragraph.code+ "\" frameborder=\"0\" allowfullscreen></iframe></div>";
         }
         $("#articleContent").append(article);
       }
+
+      callback();
     }
   }
 
   function jsonReplace(string){return string.replace(/"([^"]*)"/g, "$1");}
+
+  function initColorbox(){
+    $('a.shadowbox').colorbox({
+      scalePhotos: true,
+      maxWidth: "1000px",
+      className: "normal",
+      scrolling: false,
+      returnFocus: false
+    });
+  }
   
 });
 
