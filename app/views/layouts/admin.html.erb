@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>後台管理系統</title>
+  <%= stylesheet_link_tag    "admin", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= javascript_include_tag "index" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<div id="top-out">
+  <div id="top">
+    <h1 class="left"><a href="/admin"><img src="/images/logo_admin.png" width="44" height="29" align="center"/>華新果園-後台管理系統</a></h1>
+    <div class="right">
+    <%if session[:admin]%>
+    你好，<%= session[:admin]%>！<a href="/admin/edit">修改個人資料</a><a href="/admin/log_out">登出</a>
+    <% end %>
+    <a href="/">返回首頁</a></div>
+  </div>
+  <!--top--> 
+</div>
+
+<%= yield %>
+
+</body>
+</html>

@@ -1,13 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
-group :production, :staging do
-  gem "mysql2"
-end
 
-group :development, :test do
-  gem "sqlite3"
-end
+gem "mysql2"
+#gem "sqlite3"
 
 #for user build
 gem 'devise'
@@ -32,5 +28,5 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails', "<= 1.8.3"
+gem 'jquery-rails'
 
