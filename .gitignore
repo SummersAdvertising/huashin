@@ -16,4 +16,5 @@
 
 /config/deploy/*
 /config/environments/*
+/config/database.yml
 /public
