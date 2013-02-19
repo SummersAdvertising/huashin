@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.8'
 gem 'mysql2'
+gem 'sqlite3'
 
 #for user build
 gem 'devise'
@@ -23,8 +24,8 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
-  gem 'uglifier', '>= 1.0.3'
+  gem 'uglifier', '~>= 1.0.3'
 end
 
-gem 'jquery-rails'
+gem 'jquery-rails', "~> 1.8.3"
 
