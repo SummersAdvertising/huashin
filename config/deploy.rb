@@ -1,47 +1,38 @@
-set :application, "HuaShin"
-set :repository,  "git@github.com:HanaHsu/farm.git"
-set :deploy_to, "/home/deploy/HuaShin"
+# -*- encoding : utf-8 -*-
+require 'capistrano/ext/multistage'
+require 'bundler/capistrano' #Using bundler with Capistrano
 
-# set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
+set :stages, %w(staging production)
+set :default_stage, "production"
 
-role :web, "summers.com.tw"                          # Your HTTP server, Apache/etc
-role :app, "summers.com.tw"                          # This may be the same as your `Web` server
-role :db,  "summers.com.tw", :primary => true # This is where Rails migrations will run
 
-set :deploy_via, :remote_cache
-set :deploy_env, "production"
-set :rails_env, "production"
-set :scm, :git
-set :branch, "master"
-set :scm_verbose, true
-set :use_sudo, false
+# -*- encoding : utf-8 -*-
 
-set :user, "deploy"
+set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile.lock config/routes.rb)
 
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
 
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
+namespace :deploy do
+  namespace :assets do
 
-# If you are using Passenger mod_rails uncomment this:
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+    desc <<-DESC
+      Run the asset precompilation rake task. You can specify the full path \
+      to the rake executable by setting the rake variable. You can also \
+      specify additional environment variables to pass to rake via the \
+      asset_env variable. The defaults are:
 
-namespace :deploy do 
-	desc "restart" 
-	task :restart do
-		run "touch #{current_path}/tmp/restart.txt"
-	end
-end
-desc "Create database.yml and asset packages for production"
-after("deploy:update_code") do
-	db_config = "#{shared_path}/config/database.yml.production"
-	run "cp #{db_config} #{release_path}/config/database.yml"
+        set :rake,      "rake"
+        set :rails_env, "production"
+        set :asset_env, "RAILS_GROUPS=assets"
+        set :assets_dependencies, fetch(:assets_dependencies) + %w(config/locales/js)
+    DESC
+    task :precompile, :roles => :web, :except => { :no_release => true } do
+      from = source.next_revision(current_revision)
+      #if capture("cd #{latest_release} && #{source.local.log(from)} #{assets_dependencies.join ' '} | wc -l").to_i > 0
+        #run %Q{cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile}
+      #else
+       # logger.info "Skipping asset pre-compilation because there were no asset changes"
+     # end
+    end
+
+  end
 end
