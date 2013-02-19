@@ -33,3 +33,15 @@ set :user, "deploy"
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
+
+namespace :deploy do 
+	desc "restart" 
+	task :restart do
+		run "touch #{current_path}/tmp/restart.txt"
+	end
+end
+desc "Create database.yml and asset packages for production"
+after("deploy:update_code") do
+	db_config = "#{shared_path}/config/database.yml.production"
+	run "cp #{db_config} #{release_path}/config/database.yml"
+end
