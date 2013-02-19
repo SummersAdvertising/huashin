@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  layout "application"
   protect_from_forgery
   def require_is_admin
   	unless(session[:admin])
