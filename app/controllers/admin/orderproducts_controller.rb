@@ -39,7 +39,7 @@ class Admin::OrderproductsController < ApplicationController
 
     respond_to do |format|
       if @orderproduct.save
-        format.html { redirect_to admin_orderproduct_path(@orderproduct), notice: 'Orderproduct was successfully created.' }
+        format.html { redirect_to admin_orderproducts_path, notice: 'Orderproduct was successfully created.' }
         format.json { render json: @orderproduct, status: :created, location: @orderproduct }
       else
         format.html { render action: "new" }
