@@ -79,7 +79,6 @@ class Admin::NewsController < ApplicationController
   # PUT /news/1.json
   def update
     @news = News.find(params[:id])
-    @news.newcreate = false
 
     respond_to do |format|
       if @news.update_attributes(params[:news])

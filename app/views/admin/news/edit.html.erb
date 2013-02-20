@@ -363,6 +363,7 @@ img{
   $(form).submit(function(){
     var submit = true;
     $("#error").html("");
+    $("#news_newcreate").val("false");
 
     $(form + " input[type='text']").each(function(){
       if(!$(this).val()){

@@ -131,9 +131,7 @@
               
             </tr>
             <% end %>            
-            <% end %>            
-
-            
+            <% end %>
           </table>
           
 		  <div class="freightInfo">
@@ -150,25 +148,36 @@
               <table border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td><%= f.label :customername, "姓名" %>：</td>
-                    <td><%= f.text_field :customername, :autocomplete => "off", :class => "validate" %></td>
+                    <td><%= f.text_field :customername, :autocomplete => "off", :class => "validate" %>
+                        <label class="error" name="errorcustomername" />
+                    </td>
                   </tr>
                   <tr>
                     <td><%= f.label :tel, "聯絡電話" %>：</td>
-                    <td><input class="tel" id="tel_region" value="" style="width:40px;"/> - <input class="tel" id="tel_number" value="" />
+                    <td>
+                    <input class="tel" id="tel_region" value="" style="width:40px;"/> - <input class="tel" id="tel_number" value="" />                    
                     <%= f.text_field :tel, :autocomplete => "off", :style => "display: none;" %>
+                    <label class="error" name="errortel" />
                     </td>
                   </tr>
                   <tr>
                     <td><%= f.label :phone, "行動電話" %>：</td>
-                    <td><%= f.text_field :phone, :autocomplete => "off" %></td>
+                    <td>
+                      <%= f.text_field :phone, :autocomplete => "off" %>
+                      <label class="error" name="errorphone" />
+                    </td>
                   </tr>
                   <tr>
                     <td><%= f.label :email, "電子郵件信箱" %>：</td>
-                    <td><%= f.text_field :email, :autocomplete => "off", :class => "validate" %></td>
+                    <td><%= f.text_field :email, :autocomplete => "off", :class => "validate" %>
+                      <label class="error" name="erroremail" />
+                    </td>
                   </tr>
                   <tr>
                     <td><%= f.label :address, "收件地址" %>：</td>
-                    <td><%= f.text_field :address, :autocomplete => "off", :class => "validate" %></td>
+                    <td><%= f.text_field :address, :autocomplete => "off", :class => "validate" %>
+                      <label class="error" name="erroraddress" />
+                    </td>
                   </tr>
               </table>
               <div style="display: none;">
@@ -176,7 +185,6 @@
                 <input id="order_totalprice" size="30" type="text" name="order[totalprice]" />
                 <input id="order_shippingfee" size="30" type="text" name="order[shippingfee]" />
               </div>
-              <div id="error"></div>
               <h4>隱私權聲明：</h4>
               <p>
               華新果園將蒐集您在本次購買流程所提供之個人資料（包括姓名、聯絡電話、電子郵件信箱），做為日後提供水果收成、新品上市、禮盒優惠相關訊息。未經您的許可，本園不會將您的個人資訊與第三人分享，有關您提供之個人資料，您得向本園請求查詢、閱覽、製給複本、補充、更正、停止蒐集/處理/利用、或刪除。
@@ -233,13 +241,11 @@ $(document).ready(function(){
         var priceItem = $("label[data-price = "+$(this).data("item")+" ]").text();
         var priceSum = parseInt($(this).val()) * parseInt(priceItem);
 
-        $("#error").html("");
-
         //輸入的數量必須大於零, 不為非數字或是小數
         if(parseInt($(this).val()) < 0 || isNaN(priceSum) || ($(this).val()%1 != 0)){
             priceSum =  0;
             $(this).val("");
-            $("#error").html("請輸入正確的訂購數量");
+            alert("請輸入正確的訂購數量");
         }
 
         $("label[data-sum = " + $(this).data("item") + " ]").text(priceSum);
@@ -339,7 +345,7 @@ $(document).ready(function(){
 
     $("#sendbox").click(function(event){
       if(!$("#checkAgree").is(':checked')){
-        $("#error").html("請先勾選我同意才能繼續訂購");
+        alert("請先勾選我同意才能繼續訂購");
         event.preventDefault();
         return;
       }
@@ -381,7 +387,7 @@ $(document).ready(function(){
     });
     
     $(".tel").change( function() {
-      if($("#tel_region").val() && $("#tel_number").val()){
+      if($("#tel_region").val() || $("#tel_number").val()){
         var telNumber = "(" + $("#tel_region").val() + ")" + $("#tel_number").val();
         $("#order_tel").val(telNumber);
       }
@@ -393,45 +399,56 @@ $(document).ready(function(){
 
     function validate(){
       var submit = true;
-      $("#error").html("");
 
       $(".validate").each(function(){
+        var errorColumn = $(this).attr('id').slice(6, $(this).attr('id').length);
         if(!$(this).val()){
           submit = false;
-          $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
+          
+          $("label[name = error" + errorColumn+"]").html($("label[for='"+$(this).attr('id')+"']").html() + "不能為空").css("display", "inline");
+        }
+        else{
+          $("label[name = error" + errorColumn+"]").css("display", "none");
         }
       });
 
       //must leave tel or phone information
       if(!$("#order_phone").val() && !$("#order_tel").val()){
         submit = false;
-        $("#error").append("<p>請留下行動電話或聯絡電話</p>");
+        var errorColumn = ["order_phone", "order_tel"];
+
+        for(var i in errorColumn){
+          $("label[name = error" + errorColumn[i].slice(6, errorColumn[i].length)+"]").html("請留下聯絡方式").css("display", "inline");
+        }
+        
       }
 
       //validate email value
       var emailrule = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
       if($("#order_email").val() && !$("#order_email").val().match(emailrule)){
         submit = false;
-        $("#error").append("<p>請輸入正確的email</p>");
+        $("label[name = erroremail]").html("請輸入正確的email").css("display", "inline");
       }
 
       //validate tel value
       var telrule = /^\(0\d{1,2}\)\d{6,8}$/;
       if($("#order_tel").val() && !$("#order_tel").val().match(telrule)){
         submit = false;
-        $("#error").append("<p>請輸入正確的聯絡電話</p>");
+        console.log("tel error");
+        $("label[name = errortel]").html("請輸入正確的聯絡電話").css("display", "inline");
       }
 
       //validate phone value
       var phonerule = /^09\d{8,8}$/;
       if($("#order_phone").val() && !$("#order_phone").val().match(phonerule)){
         submit = false;
-        $("#error").append("<p>請輸入正確的手機電話</p>");
+
+        $("label[name = errorphone]").html("請輸入正確的手機電話").css("display", "inline");
       }
 
       if(!$("#totalprice").text() || $("#totalprice").text() == "0"){
         submit = false;
-        $("#error").append("<p>請選擇商品</p>");
+        alert("請選擇商品");
       }
 
       return submit;

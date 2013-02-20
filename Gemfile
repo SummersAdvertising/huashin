@@ -10,8 +10,6 @@ group :development, :test do
   gem "sqlite3"
 end
 
-#for user build
-gem 'devise'
 #for pagination
 gem 'kaminari'
 #for image upload

@@ -1,6 +1,6 @@
 class News < ActiveRecord::Base
   has_many :newsphotos, :dependent => :destroy
-  attr_accessible :content, :name
+  attr_accessible :content, :name, :newcreate
 
   paginates_per 5
 

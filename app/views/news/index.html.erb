@@ -24,7 +24,9 @@
             <div class="newsList">
                 <ul>
                   <% @news.each do |news| %>
+                  <% if(!news.newcreate) %>
                   <li><%= news.created_at.strftime("%Y/%m/%d") %>： <%= link_to news.name, news %></li>
+                  <% end %>
                   <% end %>
                 </ul>
                 <div class="newsPage">
