@@ -31,8 +31,13 @@
     </tr>
     <tr>
       <td>
-        <img src="/images/test.png" width="312" height="123" />
-        <div id='error'></div>
+        <%= recaptcha_tags %> 
+        <div id='error'>
+          <% if flash[:recaptcha_error] %>
+          <p>驗證碼錯誤</p>
+          <% end %>
+
+        </div>
       </td>
     </tr>
   </table>
@@ -40,8 +45,11 @@
 
 <div class="send">確定送出</div>
 <% end %>
-
-
+<script type= "text/javascript">
+var RecaptchaOptions = {
+   custom_translations : { incorrect_try_again : "You did it wrong, try again." }
+};
+</script>
 <script type="text/javascript">
 $(".send").click(function(event){
   $("form").submit();
@@ -51,17 +59,23 @@ $("form").submit(function(){
   var submit = true;
   $("#error").html("");
 
-  $("form input[type='text']").each(function(){
+  $("form input[type='text']:not('#recaptcha_response_field')").each(function(){
     if(!$(this).val()){
       submit = false;
       $("#error").append("<p>" + $("label[for='"+$(this).attr('id')+"']").html() + "不能為空</p>");
     }
   });
+
   if(!$("textarea").val()){
     submit = false;
     $("#error").append("<p>" + $("label[for='"+$("textarea").attr('id')+"']").html() + "不能為空</p>");
   }
 
+  if(!$('#recaptcha_response_field').val()){
+    submit = false;
+    $("#error").append("<p>請輸入驗證碼</p>");
+  }
+  
   return submit;
 });
 </script>

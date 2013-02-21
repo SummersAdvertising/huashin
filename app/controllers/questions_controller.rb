@@ -1,5 +1,5 @@
 class QuestionsController < ApplicationController
-
+  protect_from_forgery :except => [:index]
   def index
     @questions = Question.order('created_at DESC').page(params[:page])
     
@@ -16,11 +16,12 @@ class QuestionsController < ApplicationController
     @questions = Question.order('created_at DESC').page(params[:page])
 
     respond_to do |format|
-      if @question.save
+      if verify_recaptcha(:model => @question) && @question.save
         format.html { redirect_to '/questions', notice: 'Question was successfully created.' }
         format.json { render json: @question, status: :created, location: @question }
       else
-        format.html { render action: "index" }
+        flash[:recaptcha_error] = "error with reCAPTCHA"
+        format.html { render 'index' }
         format.json { render json: @question.errors, status: :unprocessable_entity }
       end
     end

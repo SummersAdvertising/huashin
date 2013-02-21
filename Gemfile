@@ -19,6 +19,8 @@ gem "mini_magick"
 #for form using "remote = true" and "multi-part = true" at the same time
 gem 'remotipart'
 
+gem "recaptcha", :require => "recaptcha/rails"
+
 
 
 group :assets do
