@@ -46,7 +46,7 @@ img{
             <div class="main-text">
               <textarea id="newParagraphContent" class="autogrow" placeholder="請將段落輸入在此處"></textarea>
             </div>
-            <div class="button" id="newParagraph"><a href="#"><img src="/images/add.png">新增段落</a></div>
+            <div id="newParagraph"><a href="#" class="buttonLink"><img src="/images/add.png">新增段落</a></div>
           </div>
 
           <div id="insert_image" style="display:none">
@@ -57,14 +57,14 @@ img{
               <%= p.file_field :image, :class => "autogrow" %>
               <% end %>
             </div>
-            <div class="button" id="btnSubmitPhoto"><a href="#"><img src="/images/add.png">新增圖片</a></div>
+            <div class="buttonArea" id="btnSubmitPhoto"><a href="#" class="buttonLink"><img src="/images/add.png">新增圖片</a></div>
           </div>
 
           <div id="insert_video" style="display:none">
             <div class="edit-text">
               <input id="newVideoContent" class="autogrow" style="width: 320px;" placeholder="請將整段youtube連結貼到此處" />
             </div>
-            <div class="button" id="newVideo"><a href="#"><img src="/images/add.png">新增連結</a></div>
+            <div class="buttonArea" id="newVideo"><a href="#" class="buttonLink"><img src="/images/add.png">新增連結</a></div>
             <div id="videoPreview"></div>
           </div>
         
@@ -307,7 +307,7 @@ img{
     removeEditPath=false;
 
     if($(paragraph).data("type") == "paragraph") {
-      controlDiv = '<div id="elementControl"><a id="elementEdit">編輯</a> | <a id="elementDel">刪除</a></div>';
+      controlDiv = '<div id="elementControl"><span class="dragItem"><a id="elementEdit">編輯</a> | <a id="elementDel">刪除</a></span></div>';
     }
     else if( $(paragraph).data("type") == "image" ) {
       controlDiv = '<div id="elementControl"><a class="photoDelete" href="/admin/news/<%= params[:id]%>/deletePhoto/' + $(paragraph).data("photo_id") + '" data-method="delete" rel="nofollow" data-remote="true">刪除</a></div>';

@@ -30,8 +30,8 @@ img{
       <div id="articleContent"></div>
 
       
-      <div class="button"><%= link_to image_tag("/images/back_admin.png")+'上一頁', admin_news_index_path %></div>
-      <div class="button"><%= link_to image_tag("/images/edit.png")+'編輯', edit_admin_news_path(@news) %></div>
+      <div class="buttonmore"><%= link_to image_tag("/images/back_admin.png")+'上一頁', admin_news_index_path, :class => "buttonLink" %>
+      <%= link_to image_tag("/images/edit.png")+'編輯', edit_admin_news_path(@news), :class => "buttonLink" %></div>
     </div>
     <!--main--> 
   </div>

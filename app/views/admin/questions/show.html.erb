@@ -26,7 +26,7 @@
                     <span> </span>
                     <p><%= simple_format(answer.content) %></p>
                     <h6><%= answer.created_at.strftime("%Y/%m/%d %H:%M") %></h6>
-                    <h4><%= link_to image_tag("/images/edit.png", :width => "16", :height => "16", :align => "center")+"修改留言", edit_admin_question_answer_path(@question, answer) %></h4>
+                    <h4><img src="/images/edit.png" width="16" height="16" align="center" /><%= link_to "修改留言", edit_admin_question_answer_path(@question, answer) %></h4>
                 </div>
                 <% end %>
 
