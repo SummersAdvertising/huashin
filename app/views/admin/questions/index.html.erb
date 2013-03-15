@@ -23,7 +23,7 @@
             <% @questions.each do |question| %>
             <tr>
               <td align="center"><%= question.created_at.strftime("%Y/%m/%d") %></td>
-              <td align="left"><%= link_to question.content[0,20], admin_question_path(question) %>
+              <td align="left"><%= link_to question.content[0,30], admin_question_path(question) %>
             	</td>
               <td align="center">
                 <% if(question.answers.size > 0) %>

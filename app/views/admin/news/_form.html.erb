@@ -24,22 +24,13 @@
 
 <div id='error'></div>
 
-<div id="btnSubmit">
-	<div class="buttonArea">
-	<table border="0" cellspacing="0" cellpadding="0" class="editTable">
-	  <tr>
-		<td>
-		<%if(@news.newcreate)%>
-		  <%= link_to image_tag("/images/cancel.png")+'取消發文', admin_news_path(@news), :method => :delete, :class => "buttonLink" %>
-		</td>
-		<td width="10"> </td>
-		<td><a href="#" class="buttonLink">
-    <img src="/images/save.png">儲存文章</a></td>
-	  </tr>
-	</table>
-	</div>
- 
+<div class="button" id="btnSubmit">
+  <a href="#">
+    <img src="/images/save.png">儲存文章</a>
 </div>
 
-
+<%if(@news.newcreate)%>
+<div class="button">
+  <%= link_to image_tag("/images/cancel.png")+'取消發文', admin_news_path(@news), :method => :delete %>
+</div>
 <%end%>

@@ -46,28 +46,28 @@ img{
             <div class="main-text">
               <textarea id="newParagraphContent" class="autogrow" placeholder="請將段落輸入在此處"></textarea>
             </div>
-            <div id="newParagraph"><a href="#" class="buttonLink"><img src="/images/add.png">新增段落</a></div>
+            <div class="button" id="newParagraph"><a href="#"><img src="/images/add.png">新增段落</a></div>
           </div>
 
           <div id="insert_image" style="display:none">
             <div class="edit-text">
-              
+
               <%= form_for (@photo), :url => 'uploadPhoto', :html => {:multipart => true, :remote => true} do |p| %>
               <div id="error"></div>
               <%= p.file_field :image, :class => "autogrow" %>
               <% end %>
             </div>
-            <div class="buttonArea" id="btnSubmitPhoto"><a href="#" class="buttonLink"><img src="/images/add.png">新增圖片</a></div>
+            <div class="button" id="btnSubmitPhoto"><a href="#"><img src="/images/add.png">新增圖片</a></div>
           </div>
 
           <div id="insert_video" style="display:none">
             <div class="edit-text">
               <input id="newVideoContent" class="autogrow" style="width: 320px;" placeholder="請將整段youtube連結貼到此處" />
             </div>
-            <div class="buttonArea" id="newVideo"><a href="#" class="buttonLink"><img src="/images/add.png">新增連結</a></div>
+            <div class="button" id="newVideo"><a href="#"><img src="/images/add.png">新增連結</a></div>
             <div id="videoPreview"></div>
           </div>
-        
+
         </div>
         <!--main-->
       </div>
@@ -165,7 +165,7 @@ img{
       }
       if(!isPass){
         $("#error").append(alert);
-        $(fileinput).val(""); 
+        $(fileinput).val("");
         return false;
       }
     }
@@ -179,11 +179,11 @@ img{
       this.reset();
     });
 
-    saveArticle();    
+    saveArticle();
   }
 
-  $("#newVideo").click(function(event) {    
-    if( $("#newVideoContent").val() ){    
+  $("#newVideo").click(function(event) {
+    if( $("#newVideoContent").val() ){
       var container = $('<div class="paragraphContainer ui-state-default dragItem" data-type="video"></div>');
       var code = getYoutubeCode( $("#newVideoContent").val());
       var paragraph = $('<iframe width="480" height="290" data-code="' + code + '" src="http://www.youtube.com/embed/' + code + '" frameborder="0" allowfullscreen></iframe>');
@@ -287,8 +287,8 @@ img{
 
         $("#articleContent").append(article);
 
-        $(".paragraphContainer").unbind().bind("click",function(){          
-          paragraphClick(this);          
+        $(".paragraphContainer").unbind().bind("click",function(){
+          paragraphClick(this);
         });
 
       }
@@ -296,18 +296,18 @@ img{
   }
 
   function jsonReplace(string){return string.replace(/"([^"]*)"/g, "$1");}
- 
+
  /* adjust order of the paragraphs */
   var removeEditPath = false;
   function paragraphClick(paragraph){
     $("#elementControl").remove();
     var controlDiv;
     if(!removeEditPath){$("#editDiv").remove();}
-    
+
     removeEditPath=false;
 
     if($(paragraph).data("type") == "paragraph") {
-      controlDiv = '<div id="elementControl"><span class="dragItem"><a id="elementEdit">編輯</a> | <a id="elementDel">刪除</a></span></div>';
+      controlDiv = '<div id="elementControl"><a id="elementEdit">編輯</a> | <a id="elementDel">刪除</a></div>';
     }
     else if( $(paragraph).data("type") == "image" ) {
       controlDiv = '<div id="elementControl"><a class="photoDelete" href="/admin/news/<%= params[:id]%>/deletePhoto/' + $(paragraph).data("photo_id") + '" data-method="delete" rel="nofollow" data-remote="true">刪除</a></div>';
@@ -333,7 +333,7 @@ img{
 
         //avoid content in textbox can't not be editted due to the using of jquery sortable
         $( "#editedContent" ).disableSelection();
-      } 
+      }
       removeEditPath = true;
       $('textarea').bind('click.sortable mousedown.sortable',function(ev){ ev.target.focus();});
 
@@ -350,7 +350,7 @@ img{
           $(".paragraphContainer").unbind().bind("click",function(){paragraphClick(this);});
           saveArticle();
         }
-      });      
+      });
     });
   }
   function nl2br(string) { return string.replace(/\n/g, "<br />");}
