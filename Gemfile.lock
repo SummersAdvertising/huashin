@@ -135,6 +135,7 @@ DEPENDENCIES
   capistrano-ext
   carrierwave
   coffee-rails (~> 3.2.1)
+  execjs
   jquery-rails
   kaminari
   mini_magick
