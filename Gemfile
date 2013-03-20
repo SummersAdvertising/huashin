@@ -24,6 +24,8 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem "capistrano"
 gem "capistrano-ext"
 
+gem "execjs"
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
