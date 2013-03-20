@@ -15,7 +15,5 @@
 /tmp
 
 /config/deploy/*
-/config/environments/*
 /config/database.yml
-/config/initializers/*
 /public

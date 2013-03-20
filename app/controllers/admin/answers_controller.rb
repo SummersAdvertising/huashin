@@ -12,6 +12,9 @@ class Admin::AnswersController < ApplicationController
 
     respond_to do |format|
       @answer.save
+
+      QuestionAnswer.send_answer(@question, @answer).deliver
+      
       format.html { redirect_to admin_question_path(params[:question_id]) }
     end
   end

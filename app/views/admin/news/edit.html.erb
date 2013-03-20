@@ -128,7 +128,13 @@ img{
   });
 
   $("#btnSubmitPhoto").click(function(event){
-    $("#new_newsphoto").submit();
+    if($("#newsphoto_image").val()){
+      $("#new_newsphoto").submit();
+    }
+    else{
+      alert("請選擇要上傳的圖片");
+    }
+    
     event.preventDefault();
   });
 

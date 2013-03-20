@@ -28,9 +28,3 @@
   <a href="#">
     <img src="/images/save.png">儲存文章</a>
 </div>
-
-<%if(@news.newcreate)%>
-<div class="button">
-  <%= link_to image_tag("/images/cancel.png")+'取消發文', admin_news_path(@news), :method => :delete %>
-</div>
-<%end%>
