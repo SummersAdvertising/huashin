@@ -357,6 +357,10 @@ $(document).ready(function(){
         });
         order.totalprice = $("#totalprice").text();
 
+        $.blockUI.defaults.css.top = "10%";
+        $.blockUI.defaults.css.left = "27%";
+        $.blockUI.defaults.css.width = "inherit";
+
         //確認表單的lightbox效果
         $.blockUI({ message: $('.confirmContent') });
         $('.blockOverlay').attr('title','取消表單').click($.unblockUI);
