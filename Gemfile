@@ -21,7 +21,8 @@ gem 'remotipart'
 
 gem "recaptcha", :require => "recaptcha/rails"
 
-
+gem "capistrano"
+gem "capistrano-ext"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

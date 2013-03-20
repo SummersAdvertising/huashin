@@ -6,4 +6,3 @@ set :stages, %w(staging production)
 set :default_stage, "production"
 
 set :assets_dependencies, %w(app/assets lib/assets vendor/assets Gemfile.lock config/routes.rb)
-
