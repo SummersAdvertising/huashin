@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+<url>
+  <loc>http://www.hsfruits.tw/</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/intro</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/product</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/product?openDiv=peach</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/product?openDiv=pear</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/product?openDiv=persimmon</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/orders</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/questions</loc>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>http://www.hsfruits.tw/news</loc>
+  <changefreq>weekly</changefreq>
+</url>
+</urlset>
